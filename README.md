@@ -34,7 +34,7 @@ XPay is designed to make digital transactions effortless for everyone — from e
 ## 🔐 Security & Compliance
 
 - End-to-end encryption  
-- Biometric & PIN authentication  
+- PIN authentication  
 - Real-time fraud detection  
 - PCI-DSS compliance  
 - GDPR-ready data privacy policies
