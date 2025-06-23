@@ -1,0 +1,10 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: xpay
+  application:
+    name: users-service
+server:
+  port: 8081
