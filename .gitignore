@@ -1,5 +1,6 @@
 # Java / Spring Boot / Maven
 target/
+**/target/
 .spring-boot-devtools.properties
 spring.log
 pom.xml.tag
@@ -8,6 +9,7 @@ pom.xml.versionsBackup
 pom.xml.next
 release.properties
 mvnw.cmd
+mvnw
 
 # Java compiled class files
 *.class
