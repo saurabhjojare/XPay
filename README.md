@@ -2,8 +2,7 @@
 
 **Smart AutoPay Platform for Everyday Payments**
 
-XPay is a flexible, global-ready AutoPay system designed to simplify recurring payments for everyday services. Whether you're paying for home services, tuition, local subscriptions, or freelance work, XPay helps users automate these transactions securely and seamlessly.
-
+XPay is a smart AutoPay and digital receipt platform for everyday services. It enables users to automate recurring payments through QR onboarding, offering flexible payment methods such as UPI, cards, and wallets, along with real-time digital receipts. XPay is designed for global scalability and daily utility.
 ---
 
 ## 🚀 Features
