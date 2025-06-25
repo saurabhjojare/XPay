@@ -1,6 +1,6 @@
 # XPay
 
-**Smart AutoPay Platform for Everyday Payments**
+## Overview
 
 XPay is a smart AutoPay and digital receipt platform for everyday services. It enables users to automate recurring payments through QR onboarding, offering flexible payment methods such as UPI, cards, and wallets, along with real-time digital receipts. XPay is designed for global scalability and daily utility.
 ---
@@ -30,3 +30,15 @@ XPay is a smart AutoPay and digital receipt platform for everyday services. It e
 - Handling tuition or subscription-based payments  
 - Replacing manual reminders and late payments  
 - Simplifying informal transactions with scheduled automation
+
+  
+## Tech Stack
+**Frontend**: ReactJS with TypeScript  
+**Backend**: Spring Boot  
+**Database**: PostgreSQL, MongoDB
+**API**: RESTful APIs  
+
+## License
+This project is licensed under the [MIT License](LICENSE).
+  
+For any issues or feedback, please contact saurabh.jojare@gmail.com.
