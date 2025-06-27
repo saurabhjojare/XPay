@@ -1,5 +1,9 @@
 package com.xpay.userservice.service.impl;
 
+import com.xpay.common.constants.ApiEndpoints;
+import com.xpay.userservice.dto.UserRequestDTO;
+import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.mapper.UserMapper;
 import com.xpay.userservice.model.User;
 import com.xpay.userservice.repository.UserRepository;
 import com.xpay.userservice.service.UserService;
@@ -10,25 +14,32 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
     @Override
-    public List<User> getAllUsers() {
+    public List<UserResponseDTO> getAllUsers() {
         try {
-            return userRepository.findAll();
+            List<User> users = userRepository.findAll();
+            return users.stream()
+                    .map(userMapper::toResponseDTO)
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching users", e);
         }
     }
 
     @Override
-    public User createUser(User user) {
+    public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
         try {
-            return userRepository.save(user);
+            User user = userMapper.toEntity(userRequestDTO);
+            User savedUser = userRepository.save(user);
+            return userMapper.toResponseDTO(savedUser);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating user", e);
         }
@@ -47,9 +58,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserById(String id) {
+    public Optional<UserResponseDTO> getUserById(String id) {
         try {
-            return userRepository.findById(id);
+            return userRepository.findById(id).map(userMapper::toResponseDTO);
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
         }
