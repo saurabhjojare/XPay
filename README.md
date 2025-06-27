@@ -1,51 +1,45 @@
 # XPay
 
-**XPay** is a smart, secure, and easy-to-use digital payment platform designed to make everyday transactions effortless for individuals and businesses. From instant money transfers to bill payments and merchant transactions, XPay offers a unified solution for managing payments with convenience and confidence.
+## Overview
 
----
+XPay is a smart AutoPay and digital receipt platform for everyday services. It enables users to automate recurring payments through QR onboarding, offering flexible payment methods such as UPI, cards, and wallets, along with real-time digital receipts. XPay is designed for global scalability and daily utility.
 
-## ✨ Key Features
+## Features
 
-- **Instant Money Transfers** – Send and receive money instantly using UPI or linked bank accounts.
-- **Bill Payments** – Pay electricity, water, gas, broadband, credit card bills, and more.
-- **Mobile & DTH Recharge** – Recharge prepaid phones and DTH services quickly.
-- **Merchant Payments** – Scan QR codes or use payment links to pay local stores and online sellers.
-- **Payment History** – Track your transactions, manage past payments, and download receipts.
-- **Rewards & Cashback** – Unlock cashback, coupons, and loyalty benefits on eligible transactions.
-- **Split Bills & Requests** – Easily split expenses or request money from friends and family.
-- **Secure & Private** – Protected with multiple layers of security, including PIN and OTP verification.
+🔁 **Recurring Payments**  
+  Automate daily, weekly, or monthly payments with full control.
 
----
+📲 **QR-Based Onboarding**  
+  Add payees easily using QR codes or mobile numbers.
 
-## 👥 Who It's For
+💳 **Flexible Payment Methods**  
+  Supports UPI, credit/debit cards, and wallets (RBI/NPCI-compliant where applicable).
 
-- **Everyday Users** – Transfer money, pay bills, and manage personal payments.
-- **Small Businesses** – Accept payments, view transaction history, and settle easily.
-- **Merchants** – Generate UPI QR codes, track customer payments, and manage settlements.
+🔔 **Smart Notifications**  
+  Alerts before each AutoPay charge; handles failed or delayed payments.
 
----
+📊 **Payment Dashboard**  
+  View upcoming payments, status, and AutoPay history at a glance.
 
-## 🔐 Security & Privacy
+🧾 **Customizable Orders**  
+  Add/remove pizzas, choose sizes, toppings, and adjust quantities.
 
-- 2-Factor Authentication (OTP + PIN)
-- End-to-End Data Encryption
-- Instant Fraud Alerts
-- RBI & PCI-DSS Compliant Infrastructure
-- Strict data privacy policies
+👥 **Customer Management**  
+  Add, update, or delete customer information with ease.
 
----
+📦 **Order Tracking**  
+  Track and manage past and current orders efficiently.
 
-## 📊 Insight & Control
+✅ **Validation & Inventory Control**  
+  Ensure correct order inputs and monitor inventory in real time.  
+  
+## Tech Stack
+**Frontend**: ReactJS with TypeScript  
+**Backend**: Spring Boot  
+**Database**: PostgreSQL, MongoDB
+**API**: RESTful APIs  
 
-- Real-time balance and transaction visibility  
-- Downloadable statements and reports  
-
----
-
-## 🎯 Why XPay?
-
-- Simple and intuitive user experience  
-- Fast and reliable transactions  
-- Built for a wide range of users — from individuals to shopkeepers  
-- Rich features in one unified platform  
-- Backed by modern security standards
+## License
+This project is licensed under the [MIT License](LICENSE).
+  
+For any issues or feedback, please contact saurabh.jojare@gmail.com.
