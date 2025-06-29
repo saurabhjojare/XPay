@@ -2,42 +2,29 @@
 
 ## Overview
 
-XPay is a smart AutoPay and digital receipt platform for everyday services. It enables users to automate recurring payments through QR onboarding, offering flexible payment methods such as UPI, cards, and wallets, along with real-time digital receipts. XPay is designed for global scalability and daily utility.
+**XPay** is a scalable, microservices-based digital payment platform built with **Java 21**, **Spring Boot 3.5.3**, and **Maven**, simulating features of real-world systems like UPI, Stripe, or Razorpay.
 
-## Features
+## 🧱 Architecture Overview
 
-🔁 **Recurring Payments**  
-  Automate daily, weekly, or monthly payments with full control.
-
-📲 **QR-Based Onboarding**  
-  Add payees easily using QR codes or mobile numbers.
-
-💳 **Flexible Payment Methods**  
-  Supports UPI, credit/debit cards, and wallets (RBI/NPCI-compliant where applicable).
-
-🔔 **Smart Notifications**  
-  Alerts before each AutoPay charge; handles failed or delayed payments.
-
-📊 **Payment Dashboard**  
-  View upcoming payments, status, and AutoPay history at a glance.
-
-🧾 **Customizable Orders**  
-  Add/remove pizzas, choose sizes, toppings, and adjust quantities.
-
-👥 **Customer Management**  
-  Add, update, or delete customer information with ease.
-
-📦 **Order Tracking**  
-  Track and manage past and current orders efficiently.
-
-✅ **Validation & Inventory Control**  
-  Ensure correct order inputs and monitor inventory in real time.  
+- **Auth Service** – JWT-based authentication and role management
+- **User Service** – User onboarding and profile management
+- **Wallet Service** – Digital wallet for balance, deposit, withdraw
+- **Transaction Service** – Peer-to-peer and merchant transactions
+- **Notification Service** – Email/SMS alerts on key events
+- **Gateway** – API routing, rate limiting, and auth filtering
+- **Fraud Detection** – Rule-based risk scoring on transactions
+- **Reconciliation** – Verifies wallet vs ledger consistency
+- **Settlement** – T+1 merchant fund settlements
+- **Audit** – Centralized event/audit logging
+- **Admin** – Ops interface for refunds, bans, etc.
   
-## Tech Stack
-**Frontend**: ReactJS with TypeScript  
-**Backend**: Spring Boot  
-**Database**: PostgreSQL, MongoDB
-**API**: RESTful APIs  
+## 🛠️ Tech Stack
+
+- Java 21, Spring Boot 3.5.3, Maven
+- Docker & Docker Compose
+- REST APIs, OAuth 2.0, Kafka
+- MongoDB, PostgreSQL, Redis
+
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
