@@ -1,4 +1,4 @@
-# Java / Spring Boot / Maven
+# === Java / Spring Boot / Maven ===
 target/
 **/target/
 .spring-boot-devtools.properties
@@ -8,13 +8,13 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
-mvnw.cmd
 mvnw
+mvnw.cmd
 
-# Java compiled class files
+# === Java compiled class files ===
 *.class
 
-# Java package files
+# === Java package files ===
 *.jar
 *.war
 *.nar
@@ -23,26 +23,25 @@ mvnw
 *.tar.gz
 *.rar
 
-# JVM crash logs
+# === JVM crash logs ===
 hs_err_pid*
 replay_pid*
 
-# Logs
+# === Logs ===
 *.log
 logs/
-spring.log
 npm-debug.log*
 yarn-debug.log*
 lerna-debug.log*
 pnpm-debug.log*
 
-# BlueJ files
+# === BlueJ files ===
 *.ctxt
 
-# Mobile Tools for Java (J2ME)
+# === Mobile Tools for Java (J2ME) ===
 .mtj.tmp/
 
-# Node.js / React / Frontend
+# === Node.js / React / Frontend ===
 node_modules/
 dist/
 build/
@@ -51,7 +50,7 @@ build/
 .env.*.local
 *.tsbuildinfo
 
-# IDEs and editors
+# === IDEs and editors ===
 ## Eclipse
 .project
 .classpath
@@ -70,7 +69,7 @@ out/
 ## VS Code
 .vscode/
 
-# OS junk files
+# === OS junk files ===
 .DS_Store
 Thumbs.db
 ehthumbs.db
