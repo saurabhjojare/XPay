@@ -10,6 +10,7 @@ pom.xml.next
 release.properties
 mvnw
 mvnw.cmd
+.mvn/
 
 # === Java compiled class files ===
 *.class
