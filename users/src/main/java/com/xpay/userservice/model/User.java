@@ -23,7 +23,6 @@ public class User {
     private ContactInfo contactInfo;
     private CustomerInfo customerInfo;
     private MerchantInfo merchantInfo;
-    private AdminInfo adminInfo;
     private BankDetails bankDetails;
 
     private LocalDateTime createdAt;
@@ -36,6 +35,7 @@ public class User {
     public static class ContactInfo {
         private String name;
         private String email;
+        private String countryCode;
         private String phoneNumber;
         private String password;
     }
@@ -60,15 +60,6 @@ public class User {
         private String businessAddress;
         private String website;
         private String contactPerson;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class AdminInfo {
-        private String employeeId;
-        private String department;
     }
 
     @Data

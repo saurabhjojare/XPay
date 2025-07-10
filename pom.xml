@@ -19,6 +19,7 @@
 	<description>Scalable digital payment system prototype</description>
 
 	<modules>
+		<module>auth</module>
 		<module>users</module>
 		<module>wallet</module>
 	</modules>

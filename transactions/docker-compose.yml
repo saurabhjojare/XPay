@@ -1,13 +1,4 @@
 services:
-  mongo:
-    image: mongo:8.0.10
-    container_name: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - xpay-net
 
   postgres:
     image: postgres:16.9-bookworm
@@ -16,15 +7,14 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_DB: xpay
-      POSTGRES_USER: xpayuser
-      POSTGRES_PASSWORD: xpaypass
+      POSTGRES_USER: saurabhjojare
+      POSTGRES_PASSWORD: Saurabh@123
     volumes:
       - pg_data:/var/lib/postgresql/data
     networks:
       - xpay-net
 
 volumes:
-  mongo_data:
   pg_data:
 
 networks:

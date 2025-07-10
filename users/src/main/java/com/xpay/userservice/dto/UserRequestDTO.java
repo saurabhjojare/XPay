@@ -16,7 +16,6 @@ public class UserRequestDTO {
     private ContactInfoDTO contactInfo;
     private CustomerInfoDTO customerInfo;
     private MerchantInfoDTO merchantInfo;
-    private AdminInfoDTO adminInfo;
     private BankDetailsDTO bankDetails;
 
     @Data
@@ -50,15 +49,6 @@ public class UserRequestDTO {
         private String businessAddress;
         private String website;
         private String contactPerson;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class AdminInfoDTO {
-        private String employeeId;
-        private String department;
     }
 
     @Data

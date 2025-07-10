@@ -4,7 +4,11 @@ spring:
       host: localhost
       port: 27017
       database: xpay
+      username: saurabhjojare
+      password: Saurabh@123
+      authentication-database: admin
   application:
     name: users-service
+
 server:
   port: 8081

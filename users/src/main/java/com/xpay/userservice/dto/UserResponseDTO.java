@@ -20,7 +20,6 @@ public class UserResponseDTO {
     private ContactInfoDTO contactInfo;
     private CustomerInfoDTO customerInfo;
     private MerchantInfoDTO merchantInfo;
-    private AdminInfoDTO adminInfo;
     private BankDetailsDTO bankDetails;
 
     private LocalDateTime createdAt;
@@ -56,15 +55,6 @@ public class UserResponseDTO {
         private String businessAddress;
         private String website;
         private String contactPerson;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class AdminInfoDTO {
-        private String employeeId;
-        private String department;
     }
 
     @Data

@@ -40,13 +40,6 @@ public class UserMapper {
                                         .contactPerson(dto.getMerchantInfo().getContactPerson())
                                         .build()
                 )
-                .adminInfo(
-                        dto.getAdminInfo() == null ? null :
-                                User.AdminInfo.builder()
-                                        .employeeId(dto.getAdminInfo().getEmployeeId())
-                                        .department(dto.getAdminInfo().getDepartment())
-                                        .build()
-                )
                 .bankDetails(
                         dto.getBankDetails() == null ? null :
                                 User.BankDetails.builder()
@@ -89,13 +82,6 @@ public class UserMapper {
                                         .businessAddress(user.getMerchantInfo().getBusinessAddress())
                                         .website(user.getMerchantInfo().getWebsite())
                                         .contactPerson(user.getMerchantInfo().getContactPerson())
-                                        .build()
-                )
-                .adminInfo(
-                        user.getAdminInfo() == null ? null :
-                                UserResponseDTO.AdminInfoDTO.builder()
-                                        .employeeId(user.getAdminInfo().getEmployeeId())
-                                        .department(user.getAdminInfo().getDepartment())
                                         .build()
                 )
                 .bankDetails(
