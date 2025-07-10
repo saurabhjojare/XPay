@@ -1,5 +1,4 @@
 # === Java / Spring Boot / Maven ===
-target/
 **/target/
 .spring-boot-devtools.properties
 spring.log
@@ -8,71 +7,73 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 pom.xml.next
 release.properties
-mvnw
-mvnw.cmd
-.mvn/
+
+# Maven wrapper files (anywhere in project)
+**/mvnw
+**/mvnw.cmd
+**/.mvn/
 
 # === Java compiled class files ===
-*.class
+**/*.class
 
 # === Java package files ===
-*.jar
-*.war
-*.nar
-*.ear
-*.zip
-*.tar.gz
-*.rar
+**/*.jar
+**/*.war
+**/*.nar
+**/*.ear
+**/*.zip
+**/*.tar.gz
+**/*.rar
 
 # === JVM crash logs ===
-hs_err_pid*
-replay_pid*
+**/hs_err_pid*
+**/replay_pid*
 
 # === Logs ===
-*.log
-logs/
-npm-debug.log*
-yarn-debug.log*
-lerna-debug.log*
-pnpm-debug.log*
+**/*.log
+**/logs/
+**/npm-debug.log*
+**/yarn-debug.log*
+**/lerna-debug.log*
+**/pnpm-debug.log*
 
 # === BlueJ files ===
-*.ctxt
+**/*.ctxt
 
 # === Mobile Tools for Java (J2ME) ===
-.mtj.tmp/
+**/.mtj.tmp/
 
 # === Node.js / React / Frontend ===
-node_modules/
-dist/
-build/
-.env
-.env.local
-.env.*.local
-*.tsbuildinfo
+**/node_modules/
+**/dist/
+**/build/
+**/.env
+**/.env.local
+**/.env.*.local
+**/*.tsbuildinfo
 
 # === IDEs and editors ===
 ## Eclipse
-.project
-.classpath
-.c9/
-.settings/
-.loadpath
-.factorypath
+**/.project
+**/.classpath
+**/.c9/
+**/.settings/
+**/.loadpath
+**/.factorypath
 
 ## IntelliJ IDEA / JetBrains
-.idea/
-*.iws
-*.iml
-*.ipr
-out/
+**/.idea/
+**/*.iws
+**/*.iml
+**/*.ipr
+**/out/
 
 ## VS Code
-.vscode/
+**/.vscode/
 
 # === OS junk files ===
-.DS_Store
-Thumbs.db
-ehthumbs.db
-Icon?
-._*
+**/.DS_Store
+**/Thumbs.db
+**/ehthumbs.db
+**/Icon?
+**/._*
