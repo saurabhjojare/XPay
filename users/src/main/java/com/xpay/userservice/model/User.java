@@ -18,58 +18,13 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     private String id;
-
     private UserType userType;
-    private ContactInfo contactInfo;
-    private CustomerInfo customerInfo;
-    private MerchantInfo merchantInfo;
-    private BankDetails bankDetails;
-
+    private String name;
+    private String email;
+    private String countryCode;
+    private String phoneNumber;
+    private String password;
+    private String dateOfBirth; // "yyyy-MM-dd"
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class ContactInfo {
-        private String name;
-        private String email;
-        private String countryCode;
-        private String phoneNumber;
-        private String password;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class CustomerInfo {
-        private String address;
-        private String dateOfBirth; // "yyyy-MM-dd"
-        private String upiId;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class MerchantInfo {
-        private String businessName;
-        private String gstNumber;
-        private String businessAddress;
-        private String website;
-        private String contactPerson;
-    }
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class BankDetails {
-        private String accountNumber;
-        private String ifscCode;
-        private String branchCode;
-        private String bankName;
-    }
 }

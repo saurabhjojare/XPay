@@ -2,14 +2,12 @@ package com.xpay.userservice.service;
 
 import com.xpay.userservice.dto.UserRequestDTO;
 import com.xpay.userservice.dto.UserResponseDTO;
-import com.xpay.userservice.model.User;
-
-import java.util.List;
-import java.util.Optional;
+import com.xpay.userservice.utility.PaginationUtil.PaginatedResponse;
 
 public interface UserService {
-    List<UserResponseDTO> getAllUsers();
-    UserResponseDTO createUser(UserRequestDTO userRequestDTO);
-    void deleteUserById(String id);
-    Optional<UserResponseDTO> getUserById(String id);
+    PaginatedResponse<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir);
+    Boolean createUser(UserRequestDTO userRequestDTO);
+    Boolean deleteUserById(String id);
+    UserResponseDTO getUserById(String id);
+    Boolean updateUserById(String id, UserRequestDTO userRequestDTO);
 }
