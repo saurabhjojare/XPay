@@ -2,6 +2,7 @@ package com.xpay.userservice.service.impl;
 
 import com.xpay.userservice.dto.UserRequestDTO;
 import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.kafka.UserProducer;
 import com.xpay.userservice.mapper.UserMapper;
 import com.xpay.userservice.model.User;
 import com.xpay.userservice.repository.UserRepository;
@@ -26,6 +27,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final UserProducer userProducer;
 
     @Override
     public PaginatedResponse<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir) {
@@ -56,6 +58,7 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userMapper.toUserMapper(userRequestDTO);
             userRepository.save(user);
+            userProducer.sendUserCreatedEvent(user.getId());
             return true;
         } catch (Exception e) {
             log.error("Error creating user", e);
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
             userRepository.deleteById(id);
+            userProducer.sendUserDeletedEvent(id);
             return true;
         } catch (Exception e) {
             log.error("Error deleting user with ID: {}", id, e);

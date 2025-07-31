@@ -1,7 +1,9 @@
 package com.xpay.wallet.model;
 
+import com.xpay.wallet.constants.Status;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,6 +24,9 @@ public class Wallet {
 
     @Column(nullable = false)
     private BigDecimal balance;
+
+    @Column(name = "status", nullable = false)
+    private Status Status;
 
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;

@@ -1,4 +1,4 @@
-package controller;
+package com.xpay.wallet.controller;
 
 
 import com.xpay.wallet.service.WalletService;
