@@ -1,10 +1,9 @@
 package com.xpay.wallet.service.impl;
 
-import com.xpay.wallet.dto.WalletTransactionEvent;
+import com.xpay.wallet.constants.Status;
 import com.xpay.wallet.model.Wallet;
 import com.xpay.wallet.repository.WalletRepository;
 import com.xpay.wallet.service.WalletService;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,51 +18,6 @@ import java.util.Optional;
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
 
-    @Transactional
-    @Override
-    public void processTransaction(WalletTransactionEvent event) {
-        try {
-            // Fetch sender wallet
-            Optional<Wallet> senderOptional = walletRepository.findByUserId(event.getSenderUserId());
-            if (senderOptional.isEmpty()) {
-                throw new RuntimeException("Sender wallet not found");
-            }
-            Wallet senderWallet = senderOptional.get();
-
-            // Fetch receiver wallet
-            Optional<Wallet> receiverOptional = walletRepository.findByUserId(event.getReceiverUserId());
-            if (receiverOptional.isEmpty()) {
-                throw new RuntimeException("Receiver wallet not found");
-            }
-            Wallet receiverWallet = receiverOptional.get();
-
-            BigDecimal amount = event.getAmount();
-
-            // Check balance
-            if (senderWallet.getBalance().compareTo(amount) < 0) {
-                throw new RuntimeException("Insufficient balance");
-            }
-
-            // Deduct from sender
-            senderWallet.setBalance(senderWallet.getBalance().subtract(amount));
-            senderWallet.setUpdatedAt(LocalDateTime.now());
-
-            // Credit to receiver
-            receiverWallet.setBalance(receiverWallet.getBalance().add(amount));
-            receiverWallet.setUpdatedAt(LocalDateTime.now());
-
-            // Save updated wallets
-            walletRepository.save(senderWallet);
-            walletRepository.save(receiverWallet);
-
-            log.info("Processed transaction: {}", event.getTransactionId());
-
-        } catch (Exception e) {
-            log.error("Error while processing transaction: " + e.getMessage());
-            throw e;
-        }
-    }
-
     public BigDecimal getBalance(String userId) {
 
         try {
@@ -77,6 +31,44 @@ public class WalletServiceImpl implements WalletService {
             }
         } catch (Exception e) {
             log.error("Error while fetching balance: " + e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public void createWalletForUser(String userId) {
+        Optional<Wallet> existingWallet = walletRepository.findByUserId(userId);
+
+        if (existingWallet.isEmpty()) {
+            Wallet wallet = Wallet.builder()
+                    .userId(userId)
+                    .balance(BigDecimal.ZERO)
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .Status(Status.ACTIVE)
+                    .build();
+
+            walletRepository.save(wallet);
+            log.info("Created new wallet for user: {}", userId);
+        } else {
+            log.info("Wallet already exists for user: {}", userId);
+        }
+    }
+
+    @Override
+    public void deleteWalletByUserId(String userId) {
+        try {
+            Optional<Wallet> optionalWallet = walletRepository.findByUserId(userId);
+
+            if (optionalWallet.isPresent()) {
+                Wallet wallet = optionalWallet.get();
+                walletRepository.delete(wallet);
+                log.info("Wallet deleted for user: {}", userId);
+            } else {
+                log.warn("No wallet found to delete for user: {}", userId);
+            }
+        } catch (Exception e) {
+            log.error("Error while deleting wallet for user {}: {}", userId, e.getMessage());
             throw e;
         }
     }
