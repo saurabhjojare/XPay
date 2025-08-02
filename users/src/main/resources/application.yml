@@ -1,21 +1,21 @@
 spring:
+  application:
+    name: users-service
+
   data:
     mongodb:
       host: localhost
       port: 27017
-      database: xpay
+      database: xpay-db
       username: saurabhjojare
       password: Saurabh@123
       authentication-database: admin
-  application:
-    name: users-service
 
   kafka:
     bootstrap-servers: localhost:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
-
 
 server:
   port: 8081

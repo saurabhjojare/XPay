@@ -1,21 +1,23 @@
+version: "3.8"
+
 services:
   postgres:
     image: postgres:16.9-bookworm
-    container_name: postgres-db
+    container_name: postgres-xpay
     environment:
-      POSTGRES_DB: wallet_db
+      POSTGRES_DB: xpay-db
       POSTGRES_USER: saurabhjojare
       POSTGRES_PASSWORD: Saurabh@123
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - postgres_data-xpay:/var/lib/postgresql/data
     networks:
-      - backend
+      - backend-xpay
 
   kafka:
     image: bitnami/kafka:4.0.0-debian-12-r8
-    container_name: kafka-kraft
+    container_name: kafka-kraft-xpay
     ports:
       - "9092:9092"
     environment:
@@ -28,16 +30,33 @@ services:
       - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
       - KAFKA_CFG_NODE_ID=1
       - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
+      - ALLOW_PLAINTEXT_LISTENER=yes
     volumes:
-      - kafka_data:/bitnami/kafka
+      - kafka_data-xpay:/bitnami/kafka/data
     networks:
-      - backend
+      - backend-xpay
     depends_on:
       - postgres
 
+  mongo:
+    image: mongo:8.0.10
+    container_name: mongo-xpay
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: saurabhjojare
+      MONGO_INITDB_ROOT_PASSWORD: Saurabh@123
+      MONGO_INITDB_DATABASE: xpay-db
+    volumes:
+      - mongo_data-xpay:/data/db
+    networks:
+      - backend-xpay
+
 volumes:
-  postgres_data:
-  kafka_data:
+  postgres_data-xpay:
+  kafka_data-xpay:
+  mongo_data-xpay:
 
 networks:
-  backend:
+  backend-xpay:
+    driver: bridge
