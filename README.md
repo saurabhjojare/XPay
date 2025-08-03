@@ -2,7 +2,7 @@
 
 ## Overview
 
-**XPay** is a scalable, microservices-based digital payment platform built with **Java 21**, **Spring Boot 3.5.3**, and **Maven 3.9.11**, simulating features of real-world systems like UPI, Stripe, or Razorpay.
+**XPay** is a scalable, microservices-based digital payment platform built with **Java 21**, **Spring Boot 3.5.3**, and **Maven 3.9.11**, simulating features of real-world systems like Stripe, or Razorpay.
 
 ## 🧱 Architecture Overview
 
