@@ -25,7 +25,6 @@
 - REST APIs, JWT, OAuth 2.0, Kafka
 - MongoDB, PostgreSQL, Redis
 
-
 ## License
 This project is licensed under the [MIT License](LICENSE).
   
