@@ -22,7 +22,7 @@
 
 - Java 21, Spring Boot 3.5.3, Maven 3.9.11
 - Docker & Docker Compose
-- REST APIs, JWT, OAuth 2.0, Apache Kafka
+- REST APIs, JWT, OAuth, Apache Kafka
 - MongoDB, PostgreSQL, Redis
 
 ## License
