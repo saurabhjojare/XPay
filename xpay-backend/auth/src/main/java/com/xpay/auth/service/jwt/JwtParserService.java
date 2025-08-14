@@ -1,6 +1,6 @@
-package com.xpay.auth.service;
+package com.xpay.auth.service.jwt;
 
-import com.xpay.auth.config.JwtConfig;
+import com.xpay.auth.config.JwtConfiguration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -11,16 +11,16 @@ import java.util.function.Function;
 
 @Service
 public class JwtParserService {
-    private final JwtConfig jwtConfig;
+    private final JwtConfiguration jwtConfiguration;
 
-    public JwtParserService(JwtConfig jwtConfig) {
-        this.jwtConfig = jwtConfig;
+    public JwtParserService(JwtConfiguration jwtConfiguration) {
+        this.jwtConfiguration = jwtConfiguration;
     }
 
     // Helper method to parse the token and retrieve all claims
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
-                .setSigningKey(Keys.hmacShaKeyFor(jwtConfig.getSecretKey().getBytes()))
+                .setSigningKey(Keys.hmacShaKeyFor(jwtConfiguration.getJwtSecretKey().getBytes()))
                 .build()
                 .parseClaimsJws(token)
                 .getBody();

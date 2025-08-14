@@ -1,5 +1,7 @@
-package com.xpay.auth.service;
+package com.xpay.auth.service.users;
 
+import com.xpay.auth.enums.UserStatus;
+import com.xpay.auth.enums.UserType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,28 +12,39 @@ import java.util.List;
 public class CustomUserDetails implements UserDetails {
 
     private final String id;
-    private final String username;
+    private final String email;
     private final String password;
-    private final String role;
+    private final UserStatus userStatus;
+    private final UserType userType;
 
-    public CustomUserDetails(String id, String username, String password, String role) {
+    public CustomUserDetails(String id, String email, String password,
+                             UserStatus userStatus, UserType userType) {
         this.id = id;
-        this.username = username;
+        this.email = email;
         this.password = password;
-        this.role = role;
+        this.userStatus = userStatus;
+        this.userType = userType;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getRole() {
-        return role;
+    public String getEmail() {
+        return email;
+    }
+
+    public UserType getUserType() {
+        return userType;
+    }
+
+    public UserStatus getUserStatus() {
+        return userStatus;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + userType));
     }
 
     @Override
@@ -41,7 +54,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return email; // Spring Security uses username, you can map email here
     }
 
     @Override

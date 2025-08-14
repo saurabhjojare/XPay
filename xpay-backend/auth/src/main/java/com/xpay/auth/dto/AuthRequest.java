@@ -1,22 +1,20 @@
 package com.xpay.auth.dto;
 
+// DTO for login request containing email and password
 public class AuthRequest {
-    private String username;
+    private String email;
     private String password;
 
-    public AuthRequest() {
+    public AuthRequest() {}
 
-    }
-
-    public AuthRequest(String username, String password) {
-        this.username = username;
+    public AuthRequest(String email, String password) {
+        this.email = email;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
-
     public String getPassword() {
         return password;
     }

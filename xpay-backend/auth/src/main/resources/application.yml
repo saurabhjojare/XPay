@@ -13,6 +13,7 @@ spring:
 
 jwt:
   secret-key: a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e
+  expiration-ms: 3600000 # 1 hour
 
 server:
   port: 8080

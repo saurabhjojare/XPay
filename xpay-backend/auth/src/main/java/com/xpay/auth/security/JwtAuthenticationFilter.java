@@ -1,7 +1,7 @@
 package com.xpay.auth.security;
 
-import com.xpay.auth.service.JwtClaimService;
-import com.xpay.auth.service.JwtTokenService;
+import com.xpay.auth.service.jwt.JwtClaimService;
+import com.xpay.auth.service.jwt.JwtTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,43 +16,61 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import java.util.List;
 
+// Filter that checks JWT tokens and authenticates users for each request
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
+
     private final JwtTokenService jwtTokenService;
     private final JwtClaimService jwtClaimService;
 
-    public JwtAuthenticationFilter(JwtTokenService jwtTokenService,
-                                   JwtClaimService jwtClaimService) {
+    public JwtAuthenticationFilter(JwtTokenService jwtTokenService, JwtClaimService jwtClaimService) {
         this.jwtTokenService = jwtTokenService;
         this.jwtClaimService = jwtClaimService;
     }
 
+    // Checks JWT token and sets authentication for each request
     @Override
-    protected void doFilterInternal(HttpServletRequest request,
-                                    HttpServletResponse response,
+    protected void doFilterInternal(HttpServletRequest httpServletRequest,
+                                    HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException {
 
-        final String authHeader = request.getHeader("Authorization");
+        String authorizationHeader = httpServletRequest.getHeader("Authorization");
 
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            String jwt = authHeader.substring(7);
+        if (hasBearerToken(authorizationHeader)) {
+            String jwtToken = extractToken(authorizationHeader);
 
-            if (jwtTokenService.validateToken(jwt)) {
-                String username = jwtClaimService.extractUsername(jwt);
-                String role = jwtClaimService.extractUserRole(jwt);
-
-                UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(
-                                username,
-                                null,
-                                List.of(new SimpleGrantedAuthority(role))
-                        );
-
-                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+            if (jwtTokenService.validateToken(jwtToken)) {
+                authenticateUser(jwtToken, httpServletRequest);
             }
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(httpServletRequest, httpServletResponse);
+    }
+
+    // Check if the Authorization header contains a Bearer token
+    private boolean hasBearerToken(String header) {
+        return header != null && header.startsWith("Bearer ");
+    }
+
+    // Extract JWT token from the Authorization header
+    private String extractToken(String header) {
+        return header.substring(7); // Remove "Bearer "
+    }
+
+    // Authenticate the user and set it in Spring Security context
+    private void authenticateUser(String token, HttpServletRequest httpServletRequest) {
+        String email = jwtClaimService.extractEmail(token);
+        String role = jwtClaimService.extractUserRole(token);
+
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
+                email,
+                null,
+                List.of(authority));
+
+        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

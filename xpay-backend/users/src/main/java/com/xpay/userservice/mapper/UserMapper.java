@@ -22,6 +22,7 @@ public class UserMapper {
                 .countryCode(userRequestDTO.getCountryCode())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
+                .userStatus(userRequestDTO.getUserStatus())
                 .build();
     }
 
@@ -36,6 +37,7 @@ public class UserMapper {
                 .dateOfBirth(user.getDateOfBirth())
                 .countryCode(user.getCountryCode())
                 .createdAt(user.getCreatedAt())
+                .userStatus(user.getUserStatus())
                 .build();
     }
 
@@ -47,6 +49,7 @@ public class UserMapper {
         if (dto.getUserType() != null) user.setUserType(dto.getUserType());
         if (dto.getDateOfBirth() != null) user.setDateOfBirth(dto.getDateOfBirth());
         if (dto.getCountryCode() != null) user.setCountryCode(dto.getCountryCode());
+        if (dto.getUserStatus() != null) user.setUserStatus(dto.getUserStatus());
 
         user.setUpdatedAt(LocalDateTime.now());
     }

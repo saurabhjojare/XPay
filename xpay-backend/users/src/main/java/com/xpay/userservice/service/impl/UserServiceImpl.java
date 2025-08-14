@@ -1,5 +1,6 @@
 package com.xpay.userservice.service.impl;
 
+import com.mongodb.DuplicateKeyException;
 import com.xpay.userservice.config.PasswordUtil;
 import com.xpay.userservice.dto.UserRequestDTO;
 import com.xpay.userservice.dto.UserResponseDTO;
@@ -63,6 +64,8 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             userProducer.sendUserCreatedEvent(user.getId());
             return true;
+        } catch (DuplicateKeyException e) {
+            throw new RuntimeException("Email or phone number already exists");
         } catch (Exception e) {
             log.error("Error creating user", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating user", e);
@@ -118,32 +121,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             log.error("Error updating user with ID: {}", id, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
-        }
-    }
-
-    @Override
-    public Boolean login(String email, String password) {
-        try {
-            Optional<User> userOptional = userRepository.findByEmail(email);
-            if (userOptional.isEmpty()) {
-                log.error("Login failed: User not found for email {}", email);
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
-            }
-
-            User user = userOptional.get();
-
-            if (!PasswordUtil.isPasswordMatch(password,user.getPassword())) {
-                log.warn("Login failed: Invalid password for email {}", email);
-                throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid credentials");
-            }
-
-            log.info("User login successful: {}", email);
-            return true;
-        } catch (ResponseStatusException e) {
-            throw e; // re-throw known errors without wrapping
-        } catch (Exception e) {
-            log.error("Login error for user: {}", email, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Login error", e);
         }
     }
 }
