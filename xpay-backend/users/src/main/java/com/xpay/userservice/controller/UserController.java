@@ -7,6 +7,7 @@ import com.xpay.userservice.service.UserService;
 import com.xpay.userservice.constants.ApiEndpoints;
 
 import com.xpay.userservice.utility.PaginationUtil;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -48,7 +49,7 @@ public class UserController {
     }
 
     @PostMapping()
-    public Boolean createUser(@RequestBody UserRequestDTO userRequestDTO) {
+    public Boolean createUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         try {
             return userService.createUser(userRequestDTO);
         } catch (Exception e) {
@@ -77,18 +78,4 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
         }
     }
-
-    @PostMapping(ApiEndpoints.Users.LOGIN)
-    public Boolean login(@RequestBody UserLoginDTO userLoginDTO) {
-        try {
-            userService.login(userLoginDTO.getEmail(), userLoginDTO.getPassword());
-            return true;
-        } catch (ResponseStatusException e) {
-            throw e;
-        } catch (Exception e) {
-            log.error("Unexpected error during login", e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Unexpected error", e);
-        }
-    }
-
 }

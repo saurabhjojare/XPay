@@ -1,5 +1,6 @@
 package com.xpay.userservice.dto;
 
+import com.xpay.userservice.enums.UserStatus;
 import com.xpay.userservice.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,4 +22,5 @@ public class UserResponseDTO {
     private String dateOfBirth; // Format: yyyy-MM-dd
     private String countryCode;
     private LocalDateTime createdAt;
+    private UserStatus userStatus;
 }

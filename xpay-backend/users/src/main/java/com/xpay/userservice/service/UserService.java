@@ -10,5 +10,4 @@ public interface UserService {
     Boolean deleteUserById(String id);
     UserResponseDTO getUserById(String id);
     Boolean updateUserById(String id, UserRequestDTO userRequestDTO);
-    Boolean login (String email, String password);
 }

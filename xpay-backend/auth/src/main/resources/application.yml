@@ -1,1 +1,19 @@
-spring.application.name=auth
+spring:
+  application:
+    name: auth
+
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: xpay-db
+      username: saurabhjojare
+      password: Saurabh@123
+      authentication-database: admin
+
+jwt:
+  secret-key: a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e
+  expiration-ms: 3600000 # 1 hour
+
+server:
+  port: 8080
