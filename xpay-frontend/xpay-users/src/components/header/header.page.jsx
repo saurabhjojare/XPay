@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 
 const Header = () => {
     return (
-        <AppBar position="static" sx={{ background: "#000" }}>
+        <AppBar position="static" elevation={0} color="inherit">
             <Toolbar sx={{ minHeight: "auto", py: 0 }}>
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                     <Typography

@@ -5,8 +5,9 @@ const Footer = () => {
     return (
         <AppBar
             position="static"
+            elevation={0}
+            color="inherit"
             sx={{
-                background: "#000",
                 top: "auto",
                 bottom: 0,
             }}
