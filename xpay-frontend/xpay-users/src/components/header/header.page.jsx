@@ -1,15 +1,14 @@
-import React from "react";
 import { AppBar, Toolbar, Typography, Box } from "@mui/material";
 
 const Header = () => {
     return (
-        <AppBar position="static" elevation={0} color="inherit">
+        <AppBar position="static" color="inherit">
             <Toolbar sx={{ minHeight: "auto", py: 0 }}>
                 <Box sx={{ width: "100%", textAlign: "center" }}>
                     <Typography
                         variant="h5"
                         sx={{
-                            fontWeight: 500
+                            fontWeight: 300
                         }}
                     >
                         XPay

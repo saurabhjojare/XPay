@@ -15,7 +15,7 @@ function App() {
         ? {
           // Dark Mode
           background: {
-            default: "#000000",
+            default: "#212121",
             paper: "#000000"
           },
           text: {
@@ -26,8 +26,8 @@ function App() {
         : {
           // Light Mode
           background: {
-            default: "#ffffff",
-            paper: "#ffffff",
+            default: "#f5f5f5",
+            paper: "#fafafa",
           },
           text: {
             primary: "#000000",
@@ -43,8 +43,8 @@ function App() {
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </BrowserRouter>
     </ThemeProvider>
