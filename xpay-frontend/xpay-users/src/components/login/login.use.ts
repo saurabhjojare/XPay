@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../../services/user.service";
-import { Login as LoginPayLoad } from "../../interfaces/login";
+import { LoginProps as LoginPayLoad } from "../../interfaces/login";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/consts";
 

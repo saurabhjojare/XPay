@@ -1,20 +1,16 @@
-import React from "react";
-import { AppBar, Toolbar, Typography, Box } from "@mui/material";
+import { AppBar, Toolbar, Typography, Box, Container } from "@mui/material";
 
 const Header = () => {
     return (
-        <AppBar position="static" elevation={0} color="inherit">
-            <Toolbar sx={{ minHeight: "auto", py: 0 }}>
-                <Box sx={{ width: "100%", textAlign: "center" }}>
-                    <Typography
-                        variant="h5"
-                        sx={{
-                            fontWeight: 500
-                        }}
-                    >
-                        XPay
-                    </Typography>
-                </Box>
+        <AppBar position="static" color="inherit">
+            <Toolbar variant="dense">
+                <Container maxWidth="lg">
+                    <Box display="flex" justifyContent="center" width="100%">
+                        <Typography variant="h6" fontWeight={300}>
+                            XPay
+                        </Typography>
+                    </Box>
+                </Container>
             </Toolbar>
         </AppBar>
     );

@@ -6,9 +6,12 @@ import {
   Paper,
   Snackbar,
   Alert,
+  useTheme,
+  SvgIcon,
 } from "@mui/material";
 import useLogin from "./login.use";
-import PageLayout from "../common/PageLayout";
+import PageLayout from "../common/page.layout";
+import { FcGoogle } from "react-icons/fc";
 
 const LoginPage: React.FC = () => {
   const {
@@ -21,53 +24,90 @@ const LoginPage: React.FC = () => {
     setErrorMessage,
   } = useLogin();
 
+  const theme = useTheme();
+
   return (
     <>
-      <PageLayout>
-        <Box display="flex" justifyContent="center" alignItems="center" flex={1}>
-          <Paper elevation={3} sx={{ width: { xs: "100%", sm: "400px" }, p: 4 }}>
-            <Typography variant="h5" gutterBottom align="center">
+      <PageLayout centerContent>
+        <Paper
+          elevation={3}
+          sx={{
+            width: { xs: "90%", sm: 470 }, p: 2,
+            backgroundColor:
+              theme.palette.mode === 'dark'
+                ? "#212121"
+                : theme.palette.background.paper,
+          }}
+        >
+          <Typography variant="h5" gutterBottom align="center" fontWeight="100">
+            Login
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+            <TextField
+              label="Email"
+              type="email"
+              fullWidth
+              margin="dense"
+              size="small"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+
+            <TextField
+              label="Password"
+              type="password"
+              fullWidth
+              margin="dense"
+              size="small"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              size="large"
+
+              fullWidth
+              sx={{
+                mt: 2,
+                backgroundColor:
+                  theme.palette.mode === "dark"
+                    ? theme.palette.common.white
+                    : theme.palette.common.black,
+                color:
+                  theme.palette.mode === "dark"
+                    ? theme.palette.common.black
+                    : theme.palette.common.white,
+                "&:hover": {
+                  backgroundColor:
+                    theme.palette.mode === "dark"
+                      ? theme.palette.grey[200]
+                      : theme.palette.grey[900],
+                },
+              }}
+            >
               Login
-            </Typography>
-            <form onSubmit={handleSubmit}>
-              <TextField
-                label="Email"
-                type="email"
-                fullWidth
-                margin="normal"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
+            </Button>
 
-              <TextField
-                label="Password"
-                type="password"
-                fullWidth
-                margin="normal"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-
-              <Button
-                type="submit"
-                variant="contained"
-                size="large"
-                fullWidth
-                sx={{
-                  mt: 2,
-                  backgroundColor: "black",
-                  color: "white"
-                }}
-              >
-                Login
-              </Button>
-            </form>
-          </Paper>
-        </Box>
+            {/* Dummy Google login button */}
+            <Button
+              variant="outlined"
+              fullWidth
+              startIcon={
+                <SvgIcon component={FcGoogle as any} inheritViewBox />
+              }
+              sx={{ mt: 2 }}
+              onClick={() => alert("Google login placeholder")}
+            >
+              Login with Google
+            </Button>
+          </form>
+        </Paper>
       </PageLayout>
-
 
       <Snackbar
         open={!!errorMessage}
