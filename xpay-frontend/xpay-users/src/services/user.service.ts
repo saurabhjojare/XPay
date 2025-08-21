@@ -1,8 +1,8 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../constants/api.consts";
-import { Login } from "../interfaces/login";
+import { LoginProps } from "../interfaces/login";
 
-export const loginUser = async (payload: Login) => {
+export const loginUser = async (payload: LoginProps) => {
   try {
     const response = await axios.post(API_ENDPOINTS.LOGIN, payload, {
       headers: { "Content-Type": "application/json" },

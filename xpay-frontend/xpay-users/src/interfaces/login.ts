@@ -1,4 +1,4 @@
-export interface Login {
+export interface LoginProps {
   email: string;
   password: string;
 }

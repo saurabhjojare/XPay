@@ -2,7 +2,7 @@ import "./app.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./components/login/login.page";
 import HomePage from "./components/home/home.page";
-import PageLayout from "./components/common/PageLayout";
+import PageLayout from "./components/common/page.layout";
 import { createTheme, CssBaseline, ThemeProvider, useMediaQuery } from "@mui/material";
 
 function App() {
