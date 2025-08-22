@@ -12,6 +12,7 @@ import {
 import useLogin from "./login.use";
 import PageLayout from "../common/page.layout";
 import { FcGoogle } from "react-icons/fc";
+import SnackbarAlert from "../common/snackbar";
 
 const LoginPage: React.FC = () => {
   const {
@@ -93,7 +94,6 @@ const LoginPage: React.FC = () => {
               Login
             </Button>
 
-            {/* Dummy Google login button */}
             <Button
               variant="outlined"
               fullWidth
@@ -109,20 +109,12 @@ const LoginPage: React.FC = () => {
         </Paper>
       </PageLayout>
 
-      <Snackbar
+      <SnackbarAlert
         open={!!errorMessage}
-        autoHideDuration={3000}
-        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+        message={errorMessage}
+        severity="error"
         onClose={() => setErrorMessage("")}
-      >
-        <Alert
-          onClose={() => setErrorMessage("")}
-          severity="error"
-          sx={{ width: "100%" }}
-        >
-          {errorMessage}
-        </Alert>
-      </Snackbar>
+      />
     </>
   );
 };

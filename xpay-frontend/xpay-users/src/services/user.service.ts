@@ -1,6 +1,6 @@
 import axios from "axios";
 import { API_ENDPOINTS } from "../constants/api.consts";
-import { LoginProps } from "../interfaces/login";
+import { LoginProps } from "../interfaces/login.props";
 
 export const loginUser = async (payload: LoginProps) => {
   try {

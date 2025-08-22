@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { loginUser } from "../../services/user.service";
-import { LoginProps as LoginPayLoad } from "../../interfaces/login";
+import { LoginProps as LoginPayLoad } from "../../interfaces/login.props";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../constants/consts";
 
@@ -20,7 +20,7 @@ const useLogin = () => {
       if (response === true) {
         navigate(ROUTES.HOME);
       } else {
-        setErrorMessage("Login failed: Invalid credentials");
+        setErrorMessage("Login failed");
       }
     } catch (error: any) {
       console.error("Login error:", error);

@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import React from "react";
 import Header from "../header/header.page";
 import Footer from "../Footer/footer.page";
-import { PageLayoutProps } from "../../interfaces/page-layout";
+import { PageLayoutProps } from "../../interfaces/page-layout.props";
 import { FOOTER_HEIGHT, HEADER_HEIGHT } from "../../constants/layout.constants";
 
 const PageLayout: React.FC<PageLayoutProps> = ({ children, header, footer, centerContent = false, }) => {
