@@ -6,7 +6,8 @@ const HomePage: React.FC = () => {
     return (
         <>
             <PageLayout>
-                <Box>
+                <Box display={"flex"} justifyContent={"center"}
+                    alignItems={"center"} height={"100vh"}>
                     <h2>Welcome Home</h2>
                 </Box>
             </PageLayout>

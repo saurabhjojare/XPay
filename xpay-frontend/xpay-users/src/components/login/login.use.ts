@@ -2,7 +2,7 @@ import { useState } from "react";
 import { loginUser } from "../../services/user.service";
 import { LoginProps as LoginPayLoad } from "../../interfaces/login.props";
 import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../constants/consts";
+import { ROUTES } from "../../constants/global.consts";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
@@ -24,7 +24,7 @@ const useLogin = () => {
       }
     } catch (error: any) {
       console.error("Login error:", error);
-      setErrorMessage(error.message || "Login failed");
+      setErrorMessage(error.message || "Login error");
     }
   };
 

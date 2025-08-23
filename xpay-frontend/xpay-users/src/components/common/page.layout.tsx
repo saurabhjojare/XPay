@@ -3,22 +3,12 @@ import React from "react";
 import Header from "../header/header.page";
 import Footer from "../Footer/footer.page";
 import { PageLayoutProps } from "../../interfaces/page-layout.props";
-import { FOOTER_HEIGHT, HEADER_HEIGHT } from "../../constants/layout.constants";
 
-const PageLayout: React.FC<PageLayoutProps> = ({ children, header, footer, centerContent = false, }) => {
+const PageLayout: React.FC<PageLayoutProps> = ({ children, header, footer }) => {
     return (
-        <Box display="flex" flexDirection="column" minHeight="100vh">
+        <Box>
             {header ?? <Header />}
-            <Box
-                display="flex"
-                justifyContent={centerContent ? "center" : "flex-start"}
-                alignItems={centerContent ? "center" : "flex-start"}
-                sx={
-                    centerContent
-                        ? { height: `calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px)` }
-                        : { flex: 1 }
-                }
-            >
+            <Box>
                 {children}
             </Box>
             {footer ?? <Footer />}
