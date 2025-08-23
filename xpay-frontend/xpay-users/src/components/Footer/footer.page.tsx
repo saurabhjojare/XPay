@@ -8,7 +8,7 @@ const Footer = () => {
                     <Container maxWidth="lg">
                         <Box display="flex" justifyContent="center" width="100%">
                             <Typography variant="body2" fontWeight={400}>
-                                © {new Date().getFullYear()} Galaxon. All rights reserved.
+                                &copy; {new Date().getFullYear()} Galaxon. All rights reserved.
                             </Typography>
                         </Box>
                     </Container>
