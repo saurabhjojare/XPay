@@ -16,4 +16,4 @@ jwt:
   expiration-ms: 3600000 # 1 hour
 
 server:
-  port: 8080
+  port: 8081
