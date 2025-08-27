@@ -1,5 +1,6 @@
 package com.xpay.auth.service.jwt;
 
+import com.xpay.auth.enums.UserStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,6 +23,10 @@ public class JwtClaimService {
 
     // Extract user role from custom claim
     public String extractUserRole(String token) {
-        return jwtParserService.extractClaim(token, claims -> claims.get("user-type", String.class));
+        return jwtParserService.extractClaim(token, claims -> claims.get("user_type", String.class));
+    }
+
+    public String extractUserStatus(String token) {
+        return jwtParserService.extractClaim(token, claims -> claims.get("user_status", String.class));
     }
 }

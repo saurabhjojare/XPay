@@ -12,3 +12,13 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/api/users/**
+          filters:
+            - JwtAuthenticationFilter
+            - RequestLoggingFilter
+        - id: admin-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/admin/**
+          filters:
+            - JwtAuthenticationFilter
+            - RequestLoggingFilter

@@ -33,8 +33,8 @@ public class JwtTokenService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("user_id", userId);
         claims.put("email", email);
-        claims.put("user-type", "ROLE_" + userType);
-        claims.put("user-status", userStatus);
+        claims.put("user_type", "ROLE_" + userType);
+        claims.put("user_status", userStatus);
         return createToken(claims);
     }
 
