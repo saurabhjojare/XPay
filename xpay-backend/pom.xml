@@ -21,7 +21,9 @@
 	<modules>
 		<module>auth</module>
 		<module>users</module>
+        <module>admin</module>
 		<module>wallet</module>
+        <module>gateway</module>
 	</modules>
 
 	<properties>

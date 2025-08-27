@@ -46,7 +46,12 @@ public class JwtTokenValidator implements TokenValidator {
         return claims.get("user-type", String.class);
     }
 
-    public String extractUserId(String user_id) {
-
+    public String extractUserId(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("user_id", String.class);
     }
 }
