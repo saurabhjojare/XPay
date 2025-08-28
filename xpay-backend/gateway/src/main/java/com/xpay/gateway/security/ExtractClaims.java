@@ -1,0 +1,39 @@
+package com.xpay.gateway.security;
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+
+import java.security.Key;
+
+public class ExtractClaims {
+    private static final String SECRET_KEY = "a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e";
+    private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+
+    public String extractEmail(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("email", String.class);
+    }
+
+    public String extractUserType(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("user-type", String.class);
+    }
+
+    public String extractUserId(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("user_id", String.class);
+    }
+}

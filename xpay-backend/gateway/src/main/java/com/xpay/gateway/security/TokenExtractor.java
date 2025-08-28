@@ -1,7 +1,6 @@
 package com.xpay.gateway.security;
 
 import org.springframework.stereotype.Component;
-import org.springframework.http.HttpHeaders;
 
 @Component
 public class TokenExtractor {

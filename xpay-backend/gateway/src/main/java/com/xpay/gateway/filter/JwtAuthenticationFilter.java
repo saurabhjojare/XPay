@@ -1,10 +1,7 @@
 package com.xpay.gateway.filter;
 
 import com.xpay.gateway.exception.GlobalExceptionHandler;
-import com.xpay.gateway.security.AuthorizationService;
-import com.xpay.gateway.security.JwtTokenValidator;
-import com.xpay.gateway.security.TokenExtractor;
-import com.xpay.gateway.security.TokenValidator;
+import com.xpay.gateway.security.*;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
@@ -19,21 +16,25 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
     private final TokenExtractor tokenExtractor;
     private final GlobalExceptionHandler exceptionHandler;
     private final AuthorizationService authorizationService;
+    private final ExtractClaims extractClaims;
 
-    public JwtAuthenticationFilter(TokenValidator tokenValidator, TokenExtractor tokenExtractor, GlobalExceptionHandler exceptionHandler, AuthorizationService authorizationService) {
+    public JwtAuthenticationFilter(TokenValidator tokenValidator, TokenExtractor tokenExtractor, GlobalExceptionHandler exceptionHandler,
+                                   AuthorizationService authorizationService, ExtractClaims extractClaims) {
         super(Config.class);
         this.tokenValidator = tokenValidator;
         this.tokenExtractor = tokenExtractor;
         this.exceptionHandler = exceptionHandler;
         this.authorizationService = authorizationService;
+        this.extractClaims = extractClaims;
     }
+
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             // Step 1: Extract token
             String token = tokenExtractor.extractToken(
-                    exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION)
-            );
+                    exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION));
+
             if (token == null) {
                 return exceptionHandler.handleUnauthorized(exchange);
             }
@@ -44,8 +45,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             }
 
             // Step 3: Extract claims
-            String email = tokenValidator.extractUsername(token);
-            String role = ((JwtTokenValidator) tokenValidator).extractUserType(token);
+            String email = extractClaims.extractEmail(token);
+            String role = extractClaims.ex;
+            String userId = ((JwtTokenValidator) tokenValidator).extractUserId(token);
 
             // Step 4: Check authorization
             String path = exchange.getRequest().getPath().toString();
@@ -58,7 +60,9 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
                     .request(builder -> builder
                             .header("X-User-Email", email)
                             .header("X-User-Role", role)
-                            .header("X-Request-ID", UUID.randomUUID().toString()))
+                            .header("X-User-ID", userId)
+                            .header("X-Request-ID", UUID.randomUUID().toString())
+                    )
                     .build();
 
             return chain.filter(exchange);

@@ -22,10 +22,14 @@ public class GlobalExceptionHandler {
     }
 
     public Mono<Void> handleBadRequest(ServerWebExchange exchange) {
-        return writeResponse(exchange, HttpStatus.BAD_REQUEST, "Forbidden");
+        return writeResponse(exchange, HttpStatus.BAD_REQUEST, "Bad Request");
     }
 
     public Mono<Void> handleServerError(ServerWebExchange exchange) {
         return writeResponse(exchange, HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error");
+    }
+
+    public Mono<Void> handleForbidden(ServerWebExchange exchange) {
+        return writeResponse(exchange, HttpStatus.FORBIDDEN, "Forbidden");
     }
 }
