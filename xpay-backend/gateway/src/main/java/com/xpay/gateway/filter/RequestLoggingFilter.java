@@ -28,12 +28,14 @@ public class RequestLoggingFilter extends AbstractGatewayFilterFactory<RequestLo
             String role = headers.getFirst("X-User-Role");
             String userId = headers.getFirst("X-User-ID");
             String requestId = headers.getFirst("X-Request-ID");
+            String userStatus = headers.getFirst("X-User-Status");
 
-            logger.info("Incoming request: [{} {}], User: {}, Role: {}, User-ID:{}, Request-ID: {}",
-                    method, path, email, role, userId, requestId);
+            logger.info("Incoming request: [{} {}], User: {}, Role: {}, User-ID:{}, Request-ID: {}, Status: {}",
+                    method, path, email, role, userId, requestId, userStatus);
 
             return chain.filter(exchange)
-                    .doOnSuccess(aVoid -> logger.info("Request completed: [{} {}]", method, path, userId, requestId));
+                    .doOnSuccess(aVoid ->
+                            logger.info("Request completed: [{} {}]", method, path, userId, requestId, userStatus));
         };
     }
 

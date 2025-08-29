@@ -5,54 +5,53 @@ import com.xpay.gateway.security.*;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 @Component
 public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAuthenticationFilter.Config> {
-    private final TokenValidator tokenValidator;
-    private final TokenExtractor tokenExtractor;
-    private final GlobalExceptionHandler exceptionHandler;
-    private final AuthorizationService authorizationService;
-    private final ExtractClaims extractClaims;
+    private final JwtTokenValidator jwtTokenValidator;
+    private final JwtTokenExtractor jwtTokenExtractor;
+    private final GlobalExceptionHandler globalExceptionHandler;
+    private final AccessControlService accessControlService;
+    private final JwtClaimExtractor jwtClaimExtractor;
 
-    public JwtAuthenticationFilter(TokenValidator tokenValidator, TokenExtractor tokenExtractor, GlobalExceptionHandler exceptionHandler,
-                                   AuthorizationService authorizationService, ExtractClaims extractClaims) {
+    public JwtAuthenticationFilter(JwtTokenValidator jwttokenValidator, JwtTokenExtractor tokenExtractor,
+                                   GlobalExceptionHandler exceptionHandler, AccessControlService authorizationService,
+                                   JwtClaimExtractor extractClaims) {
         super(Config.class);
-        this.tokenValidator = tokenValidator;
-        this.tokenExtractor = tokenExtractor;
-        this.exceptionHandler = exceptionHandler;
-        this.authorizationService = authorizationService;
-        this.extractClaims = extractClaims;
+        this.jwtTokenValidator = jwttokenValidator;
+        this.jwtTokenExtractor = tokenExtractor;
+        this.globalExceptionHandler = exceptionHandler;
+        this.accessControlService = authorizationService;
+        this.jwtClaimExtractor = extractClaims;
     }
 
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
             // Step 1: Extract token
-            String token = tokenExtractor.extractToken(
+            String token = jwtTokenExtractor.extractToken(
                     exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION));
 
             if (token == null) {
-                return exceptionHandler.handleUnauthorized(exchange);
+                return globalExceptionHandler.handleUnauthorized(exchange);
             }
 
             // Step 2: Validate token
-            if (!tokenValidator.validateToken(token)) {
-                return exceptionHandler.handleUnauthorized(exchange);
+            if (!jwtTokenValidator.validateToken(token)) {
+                return globalExceptionHandler.handleUnauthorized(exchange);
             }
 
             // Step 3: Extract claims
-            String email = extractClaims.extractEmail(token);
-            String role = extractClaims.ex;
-            String userId = ((JwtTokenValidator) tokenValidator).extractUserId(token);
+            String email = jwtClaimExtractor.extractEmail(token);
+            String role = jwtClaimExtractor.extractUserRole(token);
+            String userId = jwtClaimExtractor.extractUserId(token);
 
             // Step 4: Check authorization
             String path = exchange.getRequest().getPath().toString();
-            if (!authorizationService.isAdminPath(path, role)) {
-                return exceptionHandler.handleForbidden(exchange);
+            if (!accessControlService.isAdminPath(path, role)) {
+                return globalExceptionHandler.handleForbidden(exchange);
             }
 
             // Step 5: Enrich request with headers

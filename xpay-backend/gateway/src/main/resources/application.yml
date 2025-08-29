@@ -22,3 +22,6 @@ spring:
           filters:
             - JwtAuthenticationFilter
             - RequestLoggingFilter
+
+jwt:
+  secret: a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e

@@ -3,12 +3,22 @@ package com.xpay.gateway.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 
+import javax.print.DocFlavor;
 import java.security.Key;
 
-public class ExtractClaims {
-    private static final String SECRET_KEY = "a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e";
-    private final Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+public class JwtClaimExtractor {
+    @Value("${jwt.secret")
+    private String secretKey;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     public String extractEmail(String token) {
         Claims claims = Jwts.parserBuilder()
@@ -19,7 +29,7 @@ public class ExtractClaims {
         return claims.get("email", String.class);
     }
 
-    public String extractUserType(String token) {
+    public String extractUserRole(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
@@ -35,5 +45,14 @@ public class ExtractClaims {
                 .parseClaimsJws(token)
                 .getBody();
         return claims.get("user_id", String.class);
+    }
+
+    public String extractUserStatus(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.get("user_status", String.class);
     }
 }
