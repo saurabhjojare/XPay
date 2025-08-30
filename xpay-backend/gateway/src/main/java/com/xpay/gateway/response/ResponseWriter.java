@@ -1,4 +1,4 @@
-package com.xpay.gateway.exception;
+package com.xpay.gateway.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

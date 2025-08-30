@@ -7,21 +7,25 @@ spring:
 
   cloud:
     gateway:
-      routes:
-        - id: user-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/users/**
-          filters:
-            - JwtAuthenticationFilter
-            - RequestLoggingFilter
-        - id: admin-service
-          uri: http://localhost:8084
-          predicates:
-            - Path=/api/admin/**
-          filters:
-            - JwtAuthenticationFilter
-            - RequestLoggingFilter
+      server:
+        webflux:
+          # Define all routes here
+          routes:
+            - id: user-service
+              uri: http://localhost:8081
+              predicates:
+                - Path=/api/users/**
+              filters:
+                - name: JwtAuthenticationFilter
+                - name: RequestLoggingFilter
+
+            - id: admin-service
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/admin/**
+              filters:
+                - name: JwtAuthenticationFilter
+                - name: RequestLoggingFilter
 
 jwt:
   secret: a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e
