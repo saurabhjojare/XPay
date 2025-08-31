@@ -1,21 +1,14 @@
 package com.xpay.auth.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 // DTO for login request containing email and password
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRequest {
-    private String email;
+    private String username;
     private String password;
-
-    public AuthRequest() {}
-
-    public AuthRequest(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-    public String getPassword() {
-        return password;
-    }
 }

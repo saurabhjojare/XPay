@@ -4,30 +4,33 @@ import com.xpay.auth.constant.Constants;
 import com.xpay.auth.dto.AuthRequest;
 import com.xpay.auth.dto.AuthResponse;
 import com.xpay.auth.service.authentication.AuthenticationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.xpay.auth.service.users.AuthService;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.server.ResponseStatusException;
+
+import java.util.UUID;
 
 // Controller for handling authentication requests
 @RestController
 @RequestMapping(Constants.AUTH)
 public class AuthController {
     private final AuthenticationService authenticationService;
+    private final AuthService authService;
 
-    public AuthController(AuthenticationService authenticationService) {
+    public AuthController(AuthenticationService authenticationService, AuthService authService) {
         this.authenticationService = authenticationService;
+        this.authService = authService;
     }
 
     @PostMapping(Constants.LOGIN)
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
-        try {
-            return authenticationService.authenticate(authRequest);
-        } catch (AuthenticationException e) {
-            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid email or password");
-        }
+        return authenticationService.authenticate(authRequest);
+    }
+
+    @PostMapping(Constants.SIGNUP)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void signUp(@RequestBody AuthRequest authRequest) {
+        UUID userID = UUID.randomUUID();
+        authService.registerUser(userID, authRequest.getUsername(), authRequest.getPassword());
     }
 }

@@ -1,50 +1,44 @@
 package com.xpay.auth.service.users;
 
-import com.xpay.auth.enums.UserStatus;
-import com.xpay.auth.enums.UserType;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 public class CustomUserDetails implements UserDetails {
 
-    private final String id;
-    private final String email;
-    private final String password;
-    private final UserStatus userStatus;
-    private final UserType userType;
+    private String id;
+    private String username;
+    private String password;
 
-    public CustomUserDetails(String id, String email, String password,
-                             UserStatus userStatus, UserType userType) {
+    public CustomUserDetails() {
+    }
+
+    public CustomUserDetails(String id, String username, String password) {
         this.id = id;
-        this.email = email;
+        this.username = username;
         this.password = password;
-        this.userStatus = userStatus;
-        this.userType = userType;
     }
 
     public String getId() {
         return id;
     }
 
-    public String getEmail() {
-        return email;
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public UserType getUserType() {
-        return userType;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public UserStatus getUserStatus() {
-        return userStatus;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + userType));
+        return Collections.emptyList(); // No roles yet
     }
 
     @Override
@@ -54,7 +48,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return email; // Spring Security uses username, you can map email here
+        return username;
     }
 
     @Override

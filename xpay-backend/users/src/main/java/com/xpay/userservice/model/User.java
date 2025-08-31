@@ -23,21 +23,24 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     private String id;
+    private String userId;
     private UserType userType;
+
     @NotBlank(message = "Name is required")
     private String name;
+
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
     @Indexed(unique = true)
     private String email;
+
     private String countryCode;
+
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10,15}", message = "Phone number must be 10 to 15 digits")
     @Indexed(unique = true)
     private String phoneNumber;
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, message = "Password must be at least 8 characters")
-    private String password;
+
     private String dateOfBirth; // "yyyy-MM-dd"
     private UserStatus userStatus;
     private LocalDateTime createdAt;

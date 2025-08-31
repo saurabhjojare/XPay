@@ -16,7 +16,6 @@ public class UserRequestDTO {
     private String name;
     private String email;
     private String phoneNumber;
-    private String password;
     private String dateOfBirth; // Format: yyyy-MM-dd
     private String countryCode;
     private UserStatus userStatus;

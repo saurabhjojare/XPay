@@ -17,7 +17,6 @@ public class UserMapper {
                 .name(userRequestDTO.getName())
                 .email(userRequestDTO.getEmail())
                 .phoneNumber(userRequestDTO.getPhoneNumber())
-                .password(userRequestDTO.getPassword())
                 .dateOfBirth(userRequestDTO.getDateOfBirth())
                 .countryCode(userRequestDTO.getCountryCode())
                 .createdAt(LocalDateTime.now())
@@ -45,7 +44,6 @@ public class UserMapper {
         if (dto.getName() != null) user.setName(dto.getName());
         if (dto.getEmail() != null) user.setEmail(dto.getEmail());
         if (dto.getPhoneNumber() != null) user.setPhoneNumber(dto.getPhoneNumber());
-        if (dto.getPassword() != null) user.setPassword(dto.getPassword());
         if (dto.getUserType() != null) user.setUserType(dto.getUserType());
         if (dto.getDateOfBirth() != null) user.setDateOfBirth(dto.getDateOfBirth());
         if (dto.getCountryCode() != null) user.setCountryCode(dto.getCountryCode());

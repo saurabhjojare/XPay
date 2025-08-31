@@ -1,6 +1,5 @@
 package com.xpay.userservice.controller;
 
-import com.xpay.userservice.dto.UserLoginDTO;
 import com.xpay.userservice.dto.UserRequestDTO;
 import com.xpay.userservice.dto.UserResponseDTO;
 import com.xpay.userservice.service.UserService;
@@ -9,7 +8,6 @@ import com.xpay.userservice.constants.ApiEndpoints;
 import com.xpay.userservice.utility.PaginationUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;

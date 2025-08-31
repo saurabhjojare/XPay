@@ -26,19 +26,14 @@ public class AuthenticationService {
         // Perform authentication using username and password
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        authRequest.getEmail(),
+                        authRequest.getUsername(),
                         authRequest.getPassword()
                 )
         );
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         // Generate JWT token for authenticated user
-        String token = jwtTokenService.generateToken(
-                userDetails.getId(),
-                userDetails.getEmail(),
-                userDetails.getUserType(),
-                userDetails.getUserStatus());
-
+        String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername());
         return new AuthResponse(token); // Return token in response DTO
     }
 }

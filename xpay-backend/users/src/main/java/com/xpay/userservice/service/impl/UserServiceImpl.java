@@ -60,7 +60,6 @@ public class UserServiceImpl implements UserService {
     public Boolean createUser(UserRequestDTO userRequestDTO) {
         try {
             User user = userMapper.toUserMapper(userRequestDTO);
-            user.setPassword(PasswordUtil.encodePassword(user.getPassword()));
             userRepository.save(user);
             userProducer.sendUserCreatedEvent(user.getId());
             return true;
