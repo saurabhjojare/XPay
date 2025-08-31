@@ -2,6 +2,7 @@ package com.xpay.auth.security;
 
 import com.xpay.auth.service.jwt.JwtClaimService;
 import com.xpay.auth.service.jwt.JwtTokenService;
+import com.xpay.auth.service.users.CustomUserDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -59,15 +60,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Authenticate the user and set it in Spring Security context
     private void authenticateUser(String token, HttpServletRequest httpServletRequest) {
-        String email = jwtClaimService.extractEmail(token);
-        String role = jwtClaimService.extractUserRole(token);
-
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role);
+        String username = jwtClaimService.extractUsername(token);
+        String userId = jwtClaimService.extractUserId(token);
+        CustomUserDetails userDetails = new CustomUserDetails();
+        userDetails.setId(userId);
+        userDetails.setUsername(username);
+        userDetails.setPassword("");
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                email,
+                userDetails,
                 null,
-                List.of(authority));
+                userDetails.getAuthorities());
 
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 

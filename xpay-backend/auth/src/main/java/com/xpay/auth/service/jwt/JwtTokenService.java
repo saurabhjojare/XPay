@@ -29,12 +29,10 @@ public class JwtTokenService {
         this.key = Keys.hmacShaKeyFor(jwtConfiguration.getJwtSecretKey().getBytes());
     }
 
-    public String generateToken(String userId, String email, UserType userType, UserStatus userStatus) {
+    public String generateToken(String userId, String username) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("user_id", userId);
-        claims.put("email", email);
-        claims.put("user_type", "ROLE_" + userType);
-        claims.put("user_status", userStatus);
+        claims.put("username", username);
         return createToken(claims);
     }
 

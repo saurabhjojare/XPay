@@ -2,14 +2,19 @@ spring:
   application:
     name: auth
 
-  data:
-    mongodb:
-      host: localhost
-      port: 27017
-      database: xpay-db
-      username: saurabhjojare
-      password: Saurabh@123
-      authentication-database: admin
+  datasource:
+    url: jdbc:postgresql://localhost:5433/xpay-db-auth
+    username: saurabhjojare
+    password: Saurabh@123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
 
 jwt:
   secret-key: a267206a66f9e659f8ebeaa75090e71b04a626165f1e874130b26a7309fe934e
