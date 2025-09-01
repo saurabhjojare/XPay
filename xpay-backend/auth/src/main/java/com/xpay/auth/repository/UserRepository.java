@@ -6,8 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
+// Repository interface for accessing User data from the database
 public interface UserRepository extends JpaRepository<User, Long> {
-    // Find a user by their email
+
+    // Checks if a user with the given username already exists
     boolean existsByUsername(String username);
+
+    // Retrieves a user by their username
     Optional<User> findByUsername(String username);
 }

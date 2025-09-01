@@ -34,7 +34,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers(Constants.AUTH + Constants.STAR).permitAll()
+                        .requestMatchers(Constants.API + Constants.AUTH + Constants.STAR).permitAll()
                         // All other endpoints require authentication
                         .anyRequest().authenticated()
                 )

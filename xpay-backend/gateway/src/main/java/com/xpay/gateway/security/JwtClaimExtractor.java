@@ -32,16 +32,16 @@ public class JwtClaimExtractor {
                 .getPayload();
     }
 
-    public String extractEmail(String token) {
-        return parseClaims(token).get("email", String.class);
+    public String extractUserId(String token) {
+        return parseClaims(token).getSubject();
+    }
+
+    public String extractUsername(String token) {
+        return parseClaims(token).get("user_name", String.class);
     }
 
     public String extractUserRole(String token) {
-        return parseClaims(token).get("user-type", String.class);
-    }
-
-    public String extractUserId(String token) {
-        return parseClaims(token).get("user_id", String.class);
+        return parseClaims(token).get("user_role", String.class);
     }
 
     public String extractUserStatus(String token) {

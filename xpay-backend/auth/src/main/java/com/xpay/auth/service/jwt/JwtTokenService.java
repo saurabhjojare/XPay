@@ -1,8 +1,8 @@
 package com.xpay.auth.service.jwt;
 
 import com.xpay.auth.config.JwtConfiguration;
+import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
-import com.xpay.auth.enums.UserType;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,18 +29,20 @@ public class JwtTokenService {
         this.key = Keys.hmacShaKeyFor(jwtConfiguration.getJwtSecretKey().getBytes());
     }
 
-    public String generateToken(String userId, String username) {
+    public String generateToken(String userId, String username, UserRole userRole, UserStatus userStatus) {
         Map<String, Object> claims = new HashMap<>();
-        claims.put("user_id", userId);
-        claims.put("username", username);
-        return createToken(claims);
+        claims.put("user_name", username);
+        claims.put("user_role", userRole.name());
+        claims.put("user_status", userStatus.name());
+        return createToken(claims, userId);
     }
 
-    private String createToken(Map<String, Object> claims) {
+    private String createToken(Map<String, Object> claims, String userId) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expirationMs))
+                .setSubject(userId)
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }

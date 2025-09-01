@@ -14,6 +14,7 @@ public class JwtConfiguration {
         this.jwtSecretKey = jwtSecretKey;
     }
 
+    // Returns the JWT secret key
     public String getJwtSecretKey() {
         return jwtSecretKey;
     }

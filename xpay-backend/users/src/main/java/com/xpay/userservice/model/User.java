@@ -24,7 +24,6 @@ public class User {
     @Id
     private String id;
     private String userId;
-    private UserType userType;
 
     @NotBlank(message = "Name is required")
     private String name;
@@ -42,7 +41,6 @@ public class User {
     private String phoneNumber;
 
     private String dateOfBirth; // "yyyy-MM-dd"
-    private UserStatus userStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

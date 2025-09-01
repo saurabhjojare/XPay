@@ -24,6 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenService jwtTokenService;
     private final JwtClaimService jwtClaimService;
 
+    // Constructor for injecting JWT-related services
     public JwtAuthenticationFilter(JwtTokenService jwtTokenService, JwtClaimService jwtClaimService) {
         this.jwtTokenService = jwtTokenService;
         this.jwtClaimService = jwtClaimService;
@@ -68,9 +69,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         userDetails.setPassword("");
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
-                userDetails,
-                null,
-                userDetails.getAuthorities());
+                userDetails, null, userDetails.getAuthorities());
 
         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));
 
