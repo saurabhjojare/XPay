@@ -12,25 +12,27 @@ import java.util.UUID;
 
 // Controller for handling authentication requests
 @RestController
-@RequestMapping(Constants.AUTH)
+@RequestMapping(Constants.API + Constants.AUTH)
 public class AuthController {
     private final AuthenticationService authenticationService;
     private final AuthService authService;
 
+    // Constructor for dependency injection
     public AuthController(AuthenticationService authenticationService, AuthService authService) {
         this.authenticationService = authenticationService;
         this.authService = authService;
     }
 
+    // Handles login requests
     @PostMapping(Constants.LOGIN)
     public AuthResponse login(@RequestBody AuthRequest authRequest) {
         return authenticationService.authenticate(authRequest);
     }
 
+    // Handles signup requests and returns HTTP 201 Created
     @PostMapping(Constants.SIGNUP)
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody AuthRequest authRequest) {
-        UUID userID = UUID.randomUUID();
-        authService.registerUser(userID, authRequest.getUsername(), authRequest.getPassword());
+        authService.registerUser(UUID.randomUUID(), authRequest.getUsername(), authRequest.getPassword());
     }
 }

@@ -45,22 +45,25 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             }
 
             // Step 3: Extract claims
-            String email = jwtClaimExtractor.extractEmail(token);
-            String role = jwtClaimExtractor.extractUserRole(token);
+            String userName = jwtClaimExtractor.extractUsername(token);
+            String userRole = jwtClaimExtractor.extractUserRole(token);
             String userId = jwtClaimExtractor.extractUserId(token);
+            String userStatus = jwtClaimExtractor.extractUserStatus(token);
 
             // Step 4: Check authorization
             String path = exchange.getRequest().getPath().toString();
-            if (!accessControlService.isAdminPath(path, role)) {
+            if (!accessControlService.isAdminPath(path, userRole, userStatus) &&
+                    !accessControlService.isUserPath(path, userRole, userStatus)) {
                 return globalExceptionHandler.handleForbidden(exchange);
             }
 
             // Step 5: Enrich request with headers
             exchange = exchange.mutate()
                     .request(builder -> builder
-                            .header("X-User-Email", email)
-                            .header("X-User-Role", role)
+                            .header("X-User-Name", userName)
+                            .header("X-User-Role", userRole)
                             .header("X-User-ID", userId)
+                            .header("X-User-Status", userStatus)
                             .header("X-Request-ID", UUID.randomUUID().toString())
                     )
                     .build();

@@ -13,7 +13,6 @@ public class UserMapper {
         if (userRequestDTO == null) return null;
 
         return User.builder()
-                .userType(userRequestDTO.getUserType())
                 .name(userRequestDTO.getName())
                 .email(userRequestDTO.getEmail())
                 .phoneNumber(userRequestDTO.getPhoneNumber())
@@ -21,7 +20,6 @@ public class UserMapper {
                 .countryCode(userRequestDTO.getCountryCode())
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
-                .userStatus(userRequestDTO.getUserStatus())
                 .build();
     }
 
@@ -29,14 +27,12 @@ public class UserMapper {
         if (user == null) return null;
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .userType(user.getUserType())
                 .name(user.getName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .dateOfBirth(user.getDateOfBirth())
                 .countryCode(user.getCountryCode())
                 .createdAt(user.getCreatedAt())
-                .userStatus(user.getUserStatus())
                 .build();
     }
 
@@ -44,10 +40,8 @@ public class UserMapper {
         if (dto.getName() != null) user.setName(dto.getName());
         if (dto.getEmail() != null) user.setEmail(dto.getEmail());
         if (dto.getPhoneNumber() != null) user.setPhoneNumber(dto.getPhoneNumber());
-        if (dto.getUserType() != null) user.setUserType(dto.getUserType());
         if (dto.getDateOfBirth() != null) user.setDateOfBirth(dto.getDateOfBirth());
         if (dto.getCountryCode() != null) user.setCountryCode(dto.getCountryCode());
-        if (dto.getUserStatus() != null) user.setUserStatus(dto.getUserStatus());
 
         user.setUpdatedAt(LocalDateTime.now());
     }

@@ -1,6 +1,8 @@
 package com.xpay.auth.model;
 
 
+import com.xpay.auth.enums.UserRole;
+import com.xpay.auth.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +28,11 @@ public class User {
 
     @Column(name = "password_hash", nullable = false)
     private String passwordHash;
+
+    @Column(name = "user_role", nullable = false)
+    private UserRole userRole;
+
+    @Column(name = "user_status", nullable = false)
+    private UserStatus userStatus;
+
 }

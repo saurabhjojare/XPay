@@ -25,15 +25,13 @@ public class AuthenticationService {
     public AuthResponse authenticate(AuthRequest authRequest) throws AuthenticationException {
         // Perform authentication using username and password
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        authRequest.getUsername(),
-                        authRequest.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
         );
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         // Generate JWT token for authenticated user
-        String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername());
+        String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername(),
+                userDetails.getUserRole(), userDetails.getUserStatus());
         return new AuthResponse(token); // Return token in response DTO
     }
 }

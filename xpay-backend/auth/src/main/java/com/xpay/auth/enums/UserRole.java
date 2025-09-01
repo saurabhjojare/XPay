@@ -1,6 +1,6 @@
 package com.xpay.auth.enums;
 
-public enum UserType {
+public enum UserRole {
     USER,
     ADMIN
 }

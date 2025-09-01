@@ -1,5 +1,7 @@
 package com.xpay.auth.service.users;
 
+import com.xpay.auth.enums.UserRole;
+import com.xpay.auth.enums.UserStatus;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +26,10 @@ public class AuthService implements UserDetailsService {
     }
 
     public User registerUser(UUID userId, String username, String plainPassword) {
+        return registerUser(userId,username,plainPassword, UserRole.USER);
+    }
+
+    public User registerUser(UUID userId, String username, String plainPassword, UserRole userRole) {
         if (userRepository.existsByUsername(username)) {
             throw new RuntimeException("Username already exists");
         }
@@ -32,7 +38,9 @@ public class AuthService implements UserDetailsService {
         User user = new User();
         user.setUserId(userId);
         user.setUsername(username);
+        user.setUserStatus(UserStatus.ACTIVE);
         user.setPasswordHash(hashedPassword);
+        user.setUserRole(userRole != null ? userRole : UserRole.USER);
         return userRepository.save(user);
     }
 
@@ -48,6 +56,8 @@ public class AuthService implements UserDetailsService {
         userDetails.setId(user.getUserId().toString());
         userDetails.setUsername(user.getUsername());
         userDetails.setPassword(user.getPasswordHash());
+        userDetails.setUserRole(user.getUserRole());
+        userDetails.setUserStatus(user.getUserStatus());
         return userDetails;
     }
 }
