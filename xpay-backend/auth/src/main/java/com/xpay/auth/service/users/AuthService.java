@@ -1,7 +1,10 @@
 package com.xpay.auth.service.users;
 
+import com.xpay.auth.dto.UserRegistrationRequest;
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
+import com.xpay.auth.events.UserCreatedEvent;
+import com.xpay.auth.events.UserEventPublisher;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,29 +23,43 @@ public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserEventPublisher eventPublisher;
 
-    public AuthService(UserRepository userRepository) {
+    public AuthService(UserRepository userRepository, UserEventPublisher eventPublisher) {
         this.userRepository = userRepository;
+        this.eventPublisher = eventPublisher;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User registerUser(UUID userId, String username, String plainPassword) {
-        return registerUser(userId,username,plainPassword, UserRole.USER);
+    public User registerUser(UserRegistrationRequest userRegistrationRequest) {
+        return registerUser(userRegistrationRequest, UserRole.USER, UserStatus.ACTIVE);
     }
 
-    public User registerUser(UUID userId, String username, String plainPassword, UserRole userRole) {
-        if (userRepository.existsByUsername(username)) {
+    public User registerUser(UserRegistrationRequest registrationRequest, UserRole userRole, UserStatus userStatus) {
+        if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
 
-        String hashedPassword = passwordEncoder.encode(plainPassword);
+        UUID userId = UUID.randomUUID();
+        String hashedPassword = passwordEncoder.encode(registrationRequest.getPlainPassword());
+        LocalDateTime now = LocalDateTime.now();
+
         User user = new User();
         user.setUserId(userId);
-        user.setUsername(username);
-        user.setUserStatus(UserStatus.ACTIVE);
+        user.setUsername(registrationRequest.getUsername());
         user.setPasswordHash(hashedPassword);
         user.setUserRole(userRole != null ? userRole : UserRole.USER);
-        return userRepository.save(user);
+        user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
+        userRepository.save(user);
+
+        UserCreatedEvent event = new UserCreatedEvent(
+                userId, registrationRequest.getFirstName(),
+                registrationRequest.getLastName(), registrationRequest.getEmail(),
+                registrationRequest.getCountryCode(), registrationRequest.getPhoneNumber(),
+                registrationRequest.getDateOfBirth(), now, now);
+
+        eventPublisher.publishUserCreatedEvent(event);
+        return user;
     }
 
     @Override

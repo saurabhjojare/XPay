@@ -3,6 +3,7 @@ package com.xpay.auth.controller;
 import com.xpay.auth.constant.Constants;
 import com.xpay.auth.dto.AuthRequest;
 import com.xpay.auth.dto.AuthResponse;
+import com.xpay.auth.dto.UserRegistrationRequest;
 import com.xpay.auth.service.authentication.AuthenticationService;
 import com.xpay.auth.service.users.AuthService;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +33,7 @@ public class AuthController {
     // Handles signup requests and returns HTTP 201 Created
     @PostMapping(Constants.SIGNUP)
     @ResponseStatus(HttpStatus.CREATED)
-    public void signUp(@RequestBody AuthRequest authRequest) {
-        authService.registerUser(UUID.randomUUID(), authRequest.getUsername(), authRequest.getPassword());
+    public void signUp(@RequestBody UserRegistrationRequest registrationRequest) {
+        authService.registerUser(registrationRequest);
     }
 }
