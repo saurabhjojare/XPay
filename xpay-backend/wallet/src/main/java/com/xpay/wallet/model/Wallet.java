@@ -7,6 +7,7 @@ import org.apache.kafka.common.protocol.types.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 @Table
@@ -20,7 +21,7 @@ public class Wallet {
     private Long id;
 
     @Column(name = "user_id", nullable = false, unique = true)
-    private String userId;  // UUID from user-service
+    private UUID userId;  // UUID from user-service
 
     @Column(nullable = false)
     private BigDecimal balance;

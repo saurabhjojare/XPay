@@ -1,23 +1,19 @@
-package com.xpay.auth.events;
+package com.xpay.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class UserCreatedEvent {
-    private final UUID userId;
+public class UserRequestDTO {
     private final String firstName;
     private final String lastName;
     private final String email;
     private final String countryCode;
     private final String phoneNumber;
     private final LocalDate dateOfBirth;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    private final String username;
+    private final String plainPassword;
 }
-

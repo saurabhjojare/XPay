@@ -1,10 +1,10 @@
 package com.xpay.auth.service.users;
 
-import com.xpay.auth.dto.UserRegistrationRequest;
+import com.xpay.auth.dto.UserRequestDTO;
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
-import com.xpay.auth.events.UserCreatedEvent;
-import com.xpay.auth.events.UserEventPublisher;
+import com.xpay.auth.dto.UserCreatedEventDTO;
+import com.xpay.auth.kafka.UserProducer;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,19 +23,19 @@ public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserEventPublisher eventPublisher;
+    private final UserProducer eventPublisher;
 
-    public AuthService(UserRepository userRepository, UserEventPublisher eventPublisher) {
+    public AuthService(UserRepository userRepository, UserProducer eventPublisher) {
         this.userRepository = userRepository;
         this.eventPublisher = eventPublisher;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User registerUser(UserRegistrationRequest userRegistrationRequest) {
+    public User registerUser(UserRequestDTO userRegistrationRequest) {
         return registerUser(userRegistrationRequest, UserRole.USER, UserStatus.ACTIVE);
     }
 
-    public User registerUser(UserRegistrationRequest registrationRequest, UserRole userRole, UserStatus userStatus) {
+    public User registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             throw new RuntimeException("Username already exists");
         }
@@ -52,13 +52,13 @@ public class AuthService implements UserDetailsService {
         user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
         userRepository.save(user);
 
-        UserCreatedEvent event = new UserCreatedEvent(
+        UserCreatedEventDTO event = new UserCreatedEventDTO(
                 userId, registrationRequest.getFirstName(),
                 registrationRequest.getLastName(), registrationRequest.getEmail(),
                 registrationRequest.getCountryCode(), registrationRequest.getPhoneNumber(),
                 registrationRequest.getDateOfBirth(), now, now);
 
-        eventPublisher.publishUserCreatedEvent(event);
+        eventPublisher.sendUserCreatedEvent(event);
         return user;
     }
 

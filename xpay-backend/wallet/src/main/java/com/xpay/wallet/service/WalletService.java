@@ -1,9 +1,10 @@
 package com.xpay.wallet.service;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public interface WalletService {
-    public BigDecimal getBalance(String userId);
-    public void createWalletForUser(String userId);
-    public void deleteWalletByUserId(String userId);
+    public BigDecimal getBalance(UUID userId);
+    public void createWalletForUser(UUID userId);
+    public void deleteWalletByUserId(UUID userId);
 }

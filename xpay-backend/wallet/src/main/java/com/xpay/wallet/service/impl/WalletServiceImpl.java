@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -18,7 +19,7 @@ import java.util.Optional;
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
 
-    public BigDecimal getBalance(String userId) {
+    public BigDecimal getBalance(UUID userId) {
 
         try {
             Optional<Wallet> optionalWallet = walletRepository.findByUserId(userId);
@@ -36,7 +37,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void createWalletForUser(String userId) {
+    public void createWalletForUser(UUID userId) {
         Optional<Wallet> existingWallet = walletRepository.findByUserId(userId);
 
         if (existingWallet.isEmpty()) {
@@ -56,7 +57,7 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public void deleteWalletByUserId(String userId) {
+    public void deleteWalletByUserId(UUID userId) {
         try {
             Optional<Wallet> optionalWallet = walletRepository.findByUserId(userId);
 

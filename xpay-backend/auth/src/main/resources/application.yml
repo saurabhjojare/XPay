@@ -28,3 +28,8 @@ jwt:
 
 server:
   port: 8083
+
+logging:
+  level:
+    org.apache.kafka: INFO
+    org.springframework.kafka: INFO

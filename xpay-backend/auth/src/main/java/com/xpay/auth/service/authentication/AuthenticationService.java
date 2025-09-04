@@ -1,7 +1,7 @@
 package com.xpay.auth.service.authentication;
 
-import com.xpay.auth.dto.AuthRequest;
-import com.xpay.auth.dto.AuthResponse;
+import com.xpay.auth.dto.AuthRequestDTO;
+import com.xpay.auth.dto.AuthResponseDTO;
 import com.xpay.auth.service.jwt.JwtTokenService;
 import com.xpay.auth.service.users.CustomUserDetails;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,7 +22,7 @@ public class AuthenticationService {
     }
 
     // Authenticate user and return JWT token
-    public AuthResponse authenticate(AuthRequest authRequest) throws AuthenticationException {
+    public AuthResponseDTO authenticate(AuthRequestDTO authRequest) throws AuthenticationException {
         // Perform authentication using username and password
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
@@ -32,6 +32,6 @@ public class AuthenticationService {
         // Generate JWT token for authenticated user
         String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername(),
                 userDetails.getUserRole(), userDetails.getUserStatus());
-        return new AuthResponse(token); // Return token in response DTO
+        return new AuthResponseDTO(token); // Return token in response DTO
     }
 }
