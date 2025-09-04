@@ -13,7 +13,8 @@ public class UserMapper {
         if (userRequestDTO == null) return null;
 
         return User.builder()
-                .name(userRequestDTO.getName())
+                .firstName(userRequestDTO.getFirstName())
+                .lastName(userRequestDTO.getLastName())
                 .email(userRequestDTO.getEmail())
                 .phoneNumber(userRequestDTO.getPhoneNumber())
                 .dateOfBirth(userRequestDTO.getDateOfBirth())
@@ -27,7 +28,8 @@ public class UserMapper {
         if (user == null) return null;
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .name(user.getName())
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
                 .email(user.getEmail())
                 .phoneNumber(user.getPhoneNumber())
                 .dateOfBirth(user.getDateOfBirth())
@@ -36,8 +38,23 @@ public class UserMapper {
                 .build();
     }
 
+    public UserRequestDTO userRequestMapper(UserRequestDTO userRequestDTO) {
+        return UserRequestDTO.builder()
+                .userId(userRequestDTO.getUserId())
+                .firstName(userRequestDTO.getFirstName())
+                .lastName(userRequestDTO.getLastName())
+                .email(userRequestDTO.getEmail())
+                .countryCode(userRequestDTO.getCountryCode())
+                .phoneNumber(userRequestDTO.getPhoneNumber())
+                .dateOfBirth(userRequestDTO.getDateOfBirth())
+                .createdAt(userRequestDTO.getCreatedAt())
+                .updatedAt(userRequestDTO.getUpdatedAt())
+                .build();
+    }
+
     public void updateUserFromDto(UserRequestDTO dto, User user) {
-        if (dto.getName() != null) user.setName(dto.getName());
+        if (dto.getFirstName() != null) user.setFirstName(dto.getFirstName());
+        if (dto.getLastName() != null) user.setLastName(dto.getLastName());
         if (dto.getEmail() != null) user.setEmail(dto.getEmail());
         if (dto.getPhoneNumber() != null) user.setPhoneNumber(dto.getPhoneNumber());
         if (dto.getDateOfBirth() != null) user.setDateOfBirth(dto.getDateOfBirth());

@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
@@ -15,12 +16,11 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDTO {
     private String id;
-    private UserType userType;
-    private String name;
+    private String firstName;
+    private String lastName;
     private String email;
     private String phoneNumber;
-    private String dateOfBirth; // Format: yyyy-MM-dd
+    private LocalDate dateOfBirth; // Format: yyyy-MM-dd
     private String countryCode;
     private LocalDateTime createdAt;
-    private UserStatus userStatus;
 }

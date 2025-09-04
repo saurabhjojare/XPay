@@ -1,30 +1,33 @@
-package com.xpay.wallet.kafka;
+package com.xpay.userservice.kafka;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.xpay.wallet.dto.UserRequestDTO;
-import com.xpay.wallet.service.WalletService;
-import lombok.AllArgsConstructor;
+import com.mongodb.DuplicateKeyException;
+import com.xpay.userservice.dto.UserRequestDTO;
+import com.xpay.userservice.mapper.UserMapper;
+import com.xpay.userservice.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+@RequiredArgsConstructor
 @Slf4j
-@AllArgsConstructor
+@Service
 public class UserConsumer {
-    private final WalletService walletService;
+    private final UserService userService;
+    private final UserMapper userMapper;
     private final ObjectMapper objectMapper;
 
-    @KafkaListener(topics = "user-created", groupId = "wallet-service-group")
+    @KafkaListener(topics = "user-created", groupId = "users-service-group")
     public void listenUserCreated(String message) {
         try {
             UserRequestDTO userRequestDTO = objectMapper.readValue(message, UserRequestDTO.class);
-            log.info("Received user-created event in Wallet: {}", userRequestDTO);
-            walletService.createWalletForUser(userRequestDTO.getUserId());
+            log.info("Created user for request: {}", userRequestDTO);
+            userService.createUser(userRequestDTO);
         } catch (DuplicateKeyException e) {
             log.warn("User already exists (duplicate key) for message: {}", message);
         } catch (JsonProcessingException e) {
@@ -34,9 +37,9 @@ public class UserConsumer {
         }
     }
 
-    @KafkaListener(topics = "user-deleted", groupId = "wallet-service-group")
+    @KafkaListener(topics = "user-deleted", groupId = "users-service-group")
     public void listenUserDeleted(UUID userId) {
-        log.info("Received user-deleted event for userId: {}", userId);
-        walletService.deleteWalletByUserId(userId);
+        log.info("Users Service received user-deleted event: {}", userId);
+        // TODO: implement delete handling later
     }
 }

@@ -13,6 +13,8 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Document(collection = "users")
@@ -26,7 +28,10 @@ public class User {
     private String userId;
 
     @NotBlank(message = "Name is required")
-    private String name;
+    private String firstName;
+
+    @NotBlank(message = "Name is required")
+    private String lastName;
 
     @Email(message = "Email should be valid")
     @NotBlank(message = "Email is required")
@@ -40,7 +45,7 @@ public class User {
     @Indexed(unique = true)
     private String phoneNumber;
 
-    private String dateOfBirth; // "yyyy-MM-dd"
+    private LocalDate dateOfBirth; // "yyyy-MM-dd"
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
