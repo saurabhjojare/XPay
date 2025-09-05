@@ -34,5 +34,4 @@ public class User {
 
     @Column(name = "user_status", nullable = false)
     private UserStatus userStatus;
-
 }

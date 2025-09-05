@@ -20,8 +20,8 @@ public class UserProducer {
         createdTemplate.send("user-created", event);
     }
 
-    public void sendUserDeletedEvent(UserCreatedEventDTO eventDTO) {
-        log.info("Publishing UserDeletedEvent for userId: {}", eventDTO.getUserId());
-        deletedTemplate.send("user-deleted", eventDTO.getUserId());
+    public void sendUserDeletedEvent(UUID userId) {
+        log.info("Publishing UserDeletedEvent for userId: {}", userId);
+        deletedTemplate.send("user-deleted", userId);
     }
 }

@@ -9,6 +9,8 @@ import com.xpay.auth.service.users.AuthService;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 
+import java.util.UUID;
+
 // Controller for handling authentication requests
 @RestController
 @RequestMapping(Constants.API + Constants.AUTH)
@@ -33,5 +35,10 @@ public class AuthController {
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody UserRequestDTO registrationRequest) {
         authService.registerUser(registrationRequest);
+    }
+
+    @DeleteMapping(Constants.DELETE)
+    public void deleteUserById (@PathVariable("userId") UUID userId) {
+        authService.deleteUserById(userId);
     }
 }
