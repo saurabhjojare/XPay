@@ -7,6 +7,7 @@ import com.xpay.auth.dto.UserCreatedEventDTO;
 import com.xpay.auth.kafka.UserProducer;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -77,5 +78,13 @@ public class AuthService implements UserDetailsService {
         userDetails.setUserRole(user.getUserRole());
         userDetails.setUserStatus(user.getUserStatus());
         return userDetails;
+    }
+
+    public void deleteUserById(UUID userId) {
+        if (!userRepository.existsByUserId(userId)) {
+            throw new RuntimeException("User not found with id: " + userId);
+        }
+        userRepository.deleteByUserId(userId);
+        eventPublisher.sendUserDeletedEvent(userId);
     }
 }
