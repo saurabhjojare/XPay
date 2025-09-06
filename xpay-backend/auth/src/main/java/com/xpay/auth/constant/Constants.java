@@ -8,4 +8,5 @@ public class Constants {
     public static final String STAR = "/**";
     public static final String LOGIN = "/login";
     public static final String SIGNUP = "/signup";
+    public static final String DELETE = "/delete/{userId}";
 }
