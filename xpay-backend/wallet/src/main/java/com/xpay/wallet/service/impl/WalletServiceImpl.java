@@ -1,6 +1,7 @@
 package com.xpay.wallet.service.impl;
 
 import com.xpay.wallet.constants.Status;
+import com.xpay.wallet.dto.DepositRequestDTO;
 import com.xpay.wallet.model.Wallet;
 import com.xpay.wallet.repository.WalletRepository;
 import com.xpay.wallet.service.WalletService;
@@ -73,4 +74,33 @@ public class WalletServiceImpl implements WalletService {
             throw e;
         }
     }
+
+    @Override
+    public void deposit(UUID userId, BigDecimal amount, String cardNumber) {
+        try {
+            Optional<Wallet> optionalWallet = walletRepository.findByUserId(userId);
+            if (optionalWallet.isPresent()) {
+                Wallet wallet = optionalWallet.get();
+                if (wallet.getStatus() != Status.ACTIVE) {
+                    throw new RuntimeException("Wallet is not active");
+                }
+
+                if (cardNumber == null || cardNumber.isBlank()) {
+                    throw new RuntimeException("Invalid credit card number");
+                }
+
+                wallet.setBalance(wallet.getBalance().add(amount));
+                wallet.setUpdatedAt(LocalDateTime.now());
+
+                walletRepository.save(wallet);
+                log.info("Deposited {} into wallet for user: {}", amount, userId);
+            } else {
+                throw new RuntimeException("Wallet not found for user " + userId);
+            }
+        } catch (Exception e) {
+            log.error("Error while depositing: {}", e.getMessage());
+            throw e;
+        }
+    }
+
 }

@@ -16,6 +16,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Document(collection = "users")
 @Data
@@ -25,7 +26,7 @@ import java.time.LocalDateTime;
 public class User {
     @Id
     private String id;
-    private String userId;
+    private UUID userId;
 
     @NotBlank(message = "Name is required")
     private String firstName;

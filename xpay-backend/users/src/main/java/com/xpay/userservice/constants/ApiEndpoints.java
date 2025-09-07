@@ -7,7 +7,7 @@ public class ApiEndpoints {
 
     public static final class Users {
         public static final String BASE_USERS = "/users";
-        public static final String GET_BY_ID = "/{id}";
+        public static final String GET_BY_ID = "/{userId}";
         public static final String LOGIN = "/login";
     }
 }
