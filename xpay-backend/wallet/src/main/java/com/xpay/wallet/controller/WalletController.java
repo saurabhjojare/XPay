@@ -1,12 +1,11 @@
 package com.xpay.wallet.controller;
 
 
+import com.xpay.wallet.dto.DepositRequestDTO;
 import com.xpay.wallet.service.WalletService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -17,8 +16,14 @@ import java.util.UUID;
 public class WalletController {
     private final WalletService walletService;
 
-    @GetMapping("/{userId}/balance")
+    @GetMapping("/balance/{userId}")
     public BigDecimal getBalance(@PathVariable UUID userId) {
         return walletService.getBalance(userId);
+    }
+
+    @PostMapping("/deposit")
+    public String deposit(@Valid @RequestBody DepositRequestDTO depositRequestDTO) {
+        walletService.deposit(depositRequestDTO.getUserId(), depositRequestDTO.getAmount(), depositRequestDTO.getCardNumber());
+        return "Deposit successful!";
     }
 }

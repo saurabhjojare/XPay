@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.UUID;
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(ApiEndpoints.BASE_API + ApiEndpoints.Users.BASE_USERS)
@@ -37,11 +39,11 @@ public class UserController {
     }
 
     @GetMapping(ApiEndpoints.Users.GET_BY_ID)
-    public UserResponseDTO getUserById(@PathVariable("id") String id) {
+    public UserResponseDTO getUserById(@PathVariable("userId") UUID userId) {
         try {
-            return userService.getUserById(id);
+            return userService.getUserById(userId);
         } catch (Exception e) {
-            log.error("Error fetching user with ID: {}", id, e);
+            log.error("Error fetching user with ID: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
         }
     }
@@ -53,16 +55,6 @@ public class UserController {
         } catch (Exception e) {
             log.error("Error creating user with data: {}", userRequestDTO, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating user", e);
-        }
-    }
-
-    @DeleteMapping(ApiEndpoints.Users.GET_BY_ID)
-    public Boolean deleteUserById(@PathVariable("id") String id) {
-        try {
-            return userService.deleteUserById(id);
-        } catch (Exception e) {
-            log.error("Error deleting user with ID: {}", id, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);
         }
     }
 

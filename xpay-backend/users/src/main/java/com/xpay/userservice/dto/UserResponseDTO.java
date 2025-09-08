@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 public class UserResponseDTO {
     private String id;
+    private UUID userId;
     private String firstName;
     private String lastName;
     private String email;

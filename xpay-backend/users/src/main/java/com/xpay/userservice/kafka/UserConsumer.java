@@ -39,7 +39,12 @@ public class UserConsumer {
 
     @KafkaListener(topics = "user-deleted", groupId = "users-service-group")
     public void listenUserDeleted(UUID userId) {
-        log.info("Users Service received user-deleted event: {}", userId);
-        // TODO: implement delete handling later
+        try {
+            log.info("Users Service received user-deleted event: {}", userId);
+            userService.deleteUserByUserId(userId);
+            log.info("Successfully deleted user with userId: {}", userId);
+        } catch (Exception e) {
+            log.error("Failed to process user-deleted event for userId: {}", userId, e);
+        }
     }
 }

@@ -13,6 +13,7 @@ public class UserMapper {
         if (userRequestDTO == null) return null;
 
         return User.builder()
+                .userId(userRequestDTO.getUserId())
                 .firstName(userRequestDTO.getFirstName())
                 .lastName(userRequestDTO.getLastName())
                 .email(userRequestDTO.getEmail())
@@ -28,6 +29,7 @@ public class UserMapper {
         if (user == null) return null;
         return UserResponseDTO.builder()
                 .id(user.getId())
+                .userId(user.getUserId())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())

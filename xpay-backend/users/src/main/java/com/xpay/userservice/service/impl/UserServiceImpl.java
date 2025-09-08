@@ -20,6 +20,7 @@ import com.xpay.userservice.utility.PaginationUtil.PaginatedResponse;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -67,33 +68,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean deleteUserById(String id) {
+    public UserResponseDTO getUserById(UUID userId) {
         try {
-            if (!userRepository.existsById(id)) {
-                log.warn("User not found with ID: {}", id);
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-            }
-            userRepository.deleteById(id);
-            return true;
-        } catch (Exception e) {
-            log.error("Error deleting user with ID: {}", id, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);
-        }
-    }
-
-    @Override
-    public UserResponseDTO getUserById(String id) {
-        try {
-            Optional<User> getUserById = userRepository.findById(id);
+            Optional<User> getUserById = userRepository.findByUserId(userId);
 
             if (getUserById.isPresent()) {
                 return userMapper.userResponseMapper(getUserById.get());
             } else {
-                log.warn("User not found with ID: {}", id);
+                log.warn("User not found with ID: {}", userId);
                 throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
             }
         } catch (Exception e) {
-            log.error("Error fetching user with ID: {}", id, e);
+            log.error("Error fetching user with ID: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
         }
     }
@@ -114,6 +100,21 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             log.error("Error updating user with ID: {}", id, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
+        }
+    }
+
+    @Override
+    public void deleteUserByUserId(UUID userId) {
+        try {
+            if (!userRepository.existsByUserId(userId)) {
+                log.warn("User not found with userId: {}", userId);
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+            }
+            userRepository.deleteByUserId(userId);
+            log.info("Deleted user with userId: {}", userId);
+        } catch (Exception e) {
+            log.error("Error deleting user with userId: {}", userId, e);
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);
         }
     }
 }
