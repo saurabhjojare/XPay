@@ -27,6 +27,23 @@ services:
     networks:
       - backend-xpay
 
+  postgres-transactions:
+    image: postgres:16.9-bookworm
+    container_name: postgres-xpay-transactions
+    environment:
+      POSTGRES_USER: saurabhjojare
+      POSTGRES_PASSWORD: Saurabh@123
+      POSTGRES_DB: xpay-db-transactions
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_transactions_xpay:/var/lib/postgresql/data
+    networks:
+      -backend-xpay:
+    depends_on:
+      - postgres-wallet
+      - postgres-auth
+
   kafka:
     image: bitnami/kafka:4.0.0-debian-12-r8
     container_name: kafka-kraft-xpay
@@ -70,6 +87,7 @@ volumes:
   postgres_auth_xpay:
   mongo_users_xpay:
   kafka_data_xpay:
+  postgres_transactions_xpay:
 
 networks:
   backend-xpay:

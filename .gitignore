@@ -116,3 +116,8 @@ release.properties
 **/ehthumbs.db
 **/Icon?
 **/._*
+
+# ==========================================
+# Resources Files
+# ==========================================
+resources/

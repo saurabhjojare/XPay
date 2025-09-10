@@ -1,6 +1,6 @@
 package com.xpay.auth.config;
 
-import com.xpay.auth.dto.UserCreatedEventDTO;
+import com.xpay.auth.dto.UserCreatedDTO;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.common.serialization.UUIDSerializer;
@@ -20,7 +20,7 @@ public class KafkaConfig {
 
     // Producer for UserCreatedEventDTO
     @Bean
-    public ProducerFactory<String, UserCreatedEventDTO> jsonProducerFactory() {
+    public ProducerFactory<String, UserCreatedDTO> jsonProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -29,7 +29,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UserCreatedEventDTO> jsonKafkaTemplate() {
+    public KafkaTemplate<String, UserCreatedDTO> jsonKafkaTemplate() {
         return new KafkaTemplate<>(jsonProducerFactory());
     }
 

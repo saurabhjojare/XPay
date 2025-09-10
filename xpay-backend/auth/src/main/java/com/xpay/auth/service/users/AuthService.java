@@ -3,10 +3,12 @@ package com.xpay.auth.service.users;
 import com.xpay.auth.dto.UserRequestDTO;
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
-import com.xpay.auth.dto.UserCreatedEventDTO;
+import com.xpay.auth.dto.UserCreatedDTO;
 import com.xpay.auth.kafka.UserProducer;
+import com.xpay.auth.mapper.UserMapper;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 // Service to load user details from database for Spring Security
+@Slf4j
 @Service
 public class AuthService implements UserDetailsService {
 
@@ -32,35 +35,30 @@ public class AuthService implements UserDetailsService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User registerUser(UserRequestDTO userRegistrationRequest) {
+    public Optional<User> registerUser(UserRequestDTO userRegistrationRequest) {
         return registerUser(userRegistrationRequest, UserRole.USER, UserStatus.ACTIVE);
     }
 
-    public User registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
+    public Optional<User> registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
-            throw new RuntimeException("Username already exists");
+            log.warn("Username already exists: {}", registrationRequest.getUsername());
+            return Optional.empty();
         }
 
-        UUID userId = UUID.randomUUID();
-        String hashedPassword = passwordEncoder.encode(registrationRequest.getPlainPassword());
-        LocalDateTime now = LocalDateTime.now();
-
         User user = new User();
-        user.setUserId(userId);
+        user.setUserId(UUID.randomUUID());
         user.setUsername(registrationRequest.getUsername());
-        user.setPasswordHash(hashedPassword);
+        user.setPasswordHash(passwordEncoder.encode(registrationRequest.getPlainPassword()));
         user.setUserRole(userRole != null ? userRole : UserRole.USER);
         user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
+
         userRepository.save(user);
 
-        UserCreatedEventDTO event = new UserCreatedEventDTO(
-                userId, registrationRequest.getFirstName(),
-                registrationRequest.getLastName(), registrationRequest.getEmail(),
-                registrationRequest.getCountryCode(), registrationRequest.getPhoneNumber(),
-                registrationRequest.getDateOfBirth(), now, now);
-
+        UserCreatedDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
         eventPublisher.sendUserCreatedEvent(event);
-        return user;
+
+        log.info("Registered new user: {}", registrationRequest.getUsername());
+        return Optional.of(user);
     }
 
     @Override
@@ -77,15 +75,23 @@ public class AuthService implements UserDetailsService {
         userDetails.setPassword(user.getPasswordHash());
         userDetails.setUserRole(user.getUserRole());
         userDetails.setUserStatus(user.getUserStatus());
+
+        log.info("User logged in: {}", username);
+
         return userDetails;
     }
 
     @Transactional
-    public void deleteUserById(UUID userId) {
-        if (!userRepository.existsByUserId(userId)) {
-            throw new RuntimeException("User not found with id: " + userId);
+    public boolean deleteUserById(UUID userId) {
+        boolean exists = userRepository.existsByUserId(userId);
+        if (!exists) {
+            log.warn("User not found with id: {}", userId);
+            return false;
         }
+
         userRepository.deleteByUserId(userId);
         eventPublisher.sendUserDeletedEvent(userId);
+        log.info("Deleted user with id: {}", userId);
+        return true;
     }
 }

@@ -24,6 +24,7 @@
         <module>admin</module>
 		<module>wallet</module>
         <module>gateway</module>
+        <module>transactions</module>
 	</modules>
 
 	<properties>
