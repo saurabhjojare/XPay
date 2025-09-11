@@ -30,15 +30,16 @@ public class AuthController {
         return authenticationService.authenticate(authRequest);
     }
 
-    // Handles signup requests and returns HTTP 201 Created
+    // Handles signup requests and returns HTTP code
     @PostMapping(Constants.SIGNUP)
     @ResponseStatus(HttpStatus.CREATED)
     public void signUp(@RequestBody UserRequestDTO registrationRequest) {
         authService.registerUser(registrationRequest);
     }
 
+    // Handles delete requests
     @DeleteMapping(Constants.DELETE)
-    public void deleteUserById (@PathVariable("userId") UUID userId) {
+    public void deleteUserByUserId(@PathVariable("userId") UUID userId) {
         authService.deleteUserById(userId);
     }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 
 @Getter
 @AllArgsConstructor
-public class UserCreatedEventDTO {
+public class UserCreatedDTO {
     private final UUID userId;
     private final String firstName;
     private final String lastName;

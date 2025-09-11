@@ -1,7 +1,8 @@
 package com.xpay.auth.constant;
 
 public class Constants {
-    private Constants() {}
+    private Constants() {
+    }
 
     public static final String API = "/api";
     public static final String AUTH = "/auth";
