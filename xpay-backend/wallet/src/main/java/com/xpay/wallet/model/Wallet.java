@@ -1,9 +1,8 @@
 package com.xpay.wallet.model;
 
-import com.xpay.wallet.constants.Status;
+import com.xpay.wallet.enums.Status;
 import jakarta.persistence.*;
 import lombok.*;
-import org.apache.kafka.common.protocol.types.Field;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -18,7 +17,7 @@ import java.util.UUID;
 public class Wallet {
     @Id
     @GeneratedValue
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false, unique = true)
     private UUID id;
 
     @Column(name = "user_id", nullable = false, unique = true)

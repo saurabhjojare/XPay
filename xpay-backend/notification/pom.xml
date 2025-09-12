@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.xpay</groupId>
-	<artifactId>logging</artifactId>
+	<artifactId>notification</artifactId>
 	<version>0.0.1</version>
-	<name>logging</name>
+	<name>notification</name>
 	<url/>
 	<licenses>
 		<license/>

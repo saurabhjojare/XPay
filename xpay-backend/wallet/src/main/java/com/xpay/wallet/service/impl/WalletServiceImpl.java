@@ -1,6 +1,6 @@
 package com.xpay.wallet.service.impl;
 
-import com.xpay.wallet.constants.Status;
+import com.xpay.wallet.enums.Status;
 import com.xpay.wallet.model.Wallet;
 import com.xpay.wallet.repository.WalletRepository;
 import com.xpay.wallet.service.WalletService;
@@ -18,8 +18,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
-
-    private final TransactionProducer transactionProducer;
 
     public BigDecimal getBalance(UUID userId) {
 
@@ -94,8 +92,6 @@ public class WalletServiceImpl implements WalletService {
                 wallet.setUpdatedAt(LocalDateTime.now());
 
                 walletRepository.save(wallet);
-                // Publish receiverUserId as string
-                transactionProducer.publishUserId(userId);
                 log.info("Deposited {} into wallet for user: {}", amount, userId);
             } else {
                 throw new RuntimeException("Wallet not found for user " + userId);

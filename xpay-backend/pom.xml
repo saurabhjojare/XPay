@@ -20,11 +20,12 @@
 
 	<modules>
 		<module>auth</module>
-		<module>users</module>
-        <module>admin</module>
+		<module>user</module>
 		<module>wallet</module>
         <module>gateway</module>
         <module>transactions</module>
+        <module>logging</module>
+        <module>notification</module>
 	</modules>
 
 	<build>

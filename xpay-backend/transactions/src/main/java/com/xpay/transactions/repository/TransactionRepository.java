@@ -8,9 +8,4 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, String> {
-    List<Transaction> findBySenderWalletId(String senderWalletId);
-
-    List<Transaction> findByReceiverWalletId(String receiverWalletId);
-
-    List<Transaction> findBySenderWalletIdOrReceiverWalletId(String senderWalletId, String receiverWalletId);
 }

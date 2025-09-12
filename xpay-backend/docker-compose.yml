@@ -70,15 +70,15 @@ services:
 
   mongo:
     image: mongo:8.0.10
-    container_name: mongo-xpay-users
+    container_name: mongo-xpay-user
     ports:
       - "27017:27017"
     environment:
       MONGO_INITDB_ROOT_USERNAME: saurabhjojare
       MONGO_INITDB_ROOT_PASSWORD: Saurabh@123
-      MONGO_INITDB_DATABASE: xpay-db-users
+      MONGO_INITDB_DATABASE: xpay-db-user
     volumes:
-      - mongo_users_xpay:/data/db
+      - mongo_user_xpay:/data/db
     networks:
       - backend-xpay
 
@@ -110,7 +110,7 @@ services:
 volumes:
   postgres_wallet_xpay:
   postgres_auth_xpay:
-  mongo_users_xpay:
+  mongo_user_xpay:
   kafka_data_xpay:
   postgres_transactions_xpay:
   grafana-storage:

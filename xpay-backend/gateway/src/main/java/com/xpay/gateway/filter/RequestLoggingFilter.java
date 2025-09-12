@@ -24,18 +24,21 @@ public class RequestLoggingFilter extends AbstractGatewayFilterFactory<RequestLo
             String path = exchange.getRequest().getPath().toString();
             String method = exchange.getRequest().getMethod().name();
 
+            String requestId = headers.getFirst("X-Request-ID");
+            String userId = headers.getFirst("X-User-ID");
             String username = headers.getFirst("X-User-Name");
             String role = headers.getFirst("X-User-Role");
-            String userId = headers.getFirst("X-User-ID");
-            String requestId = headers.getFirst("X-Request-ID");
             String userStatus = headers.getFirst("X-User-Status");
 
-            logger.info("Request completed: [{} {}], User-ID: {}, Request-ID: {}, Status: {}",
-                    method, path, userId, requestId, userStatus);
+            logger.info("Request received: [{} {}], User-ID: {}, Username: {}, Role: {}, " +
+                            "Request-ID: {}, Status: {}",
+                    method, path, userId, username, role, requestId, userStatus);
 
             return chain.filter(exchange)
-                    .doOnSuccess(aVoid ->
-                            logger.info("Request completed: [{} {}]", method, path, userId, requestId, userStatus));
+                    .doFinally(signalType ->
+                            logger.info("Request completed: [{} {}], User-ID: {}, Username: {}, " +
+                                            "Role: {}, Request-ID: {}, Status: {}",
+                                    method, path, userId, username, role, requestId, userStatus));
         };
     }
 

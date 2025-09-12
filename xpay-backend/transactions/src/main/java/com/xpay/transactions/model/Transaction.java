@@ -25,10 +25,10 @@ public class Transaction {
     private String transactionId;  // UUID as String for long-term scalability
 
     @Column(nullable = false)
-    private String senderWalletId;
+    private UUID senderWalletId;
 
     @Column(nullable = false)
-    private String receiverWalletId;
+    private UUID receiverWalletId;
 
     @Column(nullable = false, precision = 19, scale = 2)
     private BigDecimal transactionAmount;

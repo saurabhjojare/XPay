@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class TransactionResponseDTO {
     private String transactionId;
-    private String senderWalletId;
-    private String receiverWalletId;
+    private UUID senderWalletId;
+    private UUID receiverWalletId;
     private BigDecimal transactionAmount;
     private TransactionType transactionType;
     private TransactionStatus transactionStatus;

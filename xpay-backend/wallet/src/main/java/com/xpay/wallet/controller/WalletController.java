@@ -1,6 +1,7 @@
 package com.xpay.wallet.controller;
 
 
+import com.xpay.wallet.constants.ApiEndpoints;
 import com.xpay.wallet.dto.DepositRequestDTO;
 import com.xpay.wallet.service.WalletService;
 import jakarta.validation.Valid;
@@ -11,17 +12,17 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/wallets")
+@RequestMapping(ApiEndpoints.BASE_API + ApiEndpoints.Wallet.BASE_WALLET)
 @RequiredArgsConstructor
 public class WalletController {
     private final WalletService walletService;
 
-    @GetMapping("/balance/{userId}")
+    @GetMapping(ApiEndpoints.Wallet.GET_BALANCE_BY_ID)
     public BigDecimal getBalance(@PathVariable UUID userId) {
         return walletService.getBalance(userId);
     }
 
-    @PostMapping("/deposit")
+    @PostMapping(ApiEndpoints.Wallet.DEPOSIT)
     public String deposit(@Valid @RequestBody DepositRequestDTO depositRequestDTO) {
         walletService.deposit(depositRequestDTO.getUserId(), depositRequestDTO.getAmount(), depositRequestDTO.getCardNumber());
         return "Deposit successful!";

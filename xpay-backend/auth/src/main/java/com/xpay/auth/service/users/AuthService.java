@@ -1,10 +1,10 @@
 package com.xpay.auth.service.users;
 
 import com.xpay.auth.dto.UserRequestDTO;
+import com.xpay.auth.dto.event.UserCreatedEventDTO;
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
-import com.xpay.auth.dto.UserCreatedDTO;
-import com.xpay.auth.kafka.UserProducer;
+import com.xpay.auth.event.UserProducer;
 import com.xpay.auth.mapper.UserMapper;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
@@ -54,7 +54,7 @@ public class AuthService implements UserDetailsService {
 
         userRepository.save(user);
 
-        UserCreatedDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
+        UserCreatedEventDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
         eventPublisher.sendUserCreatedEvent(event);
 
         log.info("Registered new user: {}", registrationRequest.getUsername());
