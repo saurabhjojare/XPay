@@ -26,6 +26,8 @@ import java.util.UUID;
 public class User {
     @Id
     private String id;
+
+    @Indexed(unique = true)
     private UUID userId;
 
     @NotBlank(message = "Name is required")

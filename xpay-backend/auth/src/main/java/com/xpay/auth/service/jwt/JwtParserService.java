@@ -19,7 +19,7 @@ public class JwtParserService {
 
     // Helper method to parse the token and retrieve all claims
     public Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtConfiguration.getJwtSecretKey().getBytes()))
                 .build()
                 .parseClaimsJws(token)

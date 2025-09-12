@@ -39,7 +39,7 @@ services:
     volumes:
       - postgres_transactions_xpay:/var/lib/postgresql/data
     networks:
-      -backend-xpay:
+      - backend-xpay
     depends_on:
       - postgres-wallet
       - postgres-auth
@@ -82,12 +82,39 @@ services:
     networks:
       - backend-xpay
 
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: prometheus-xpay
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-storage:/prometheus
+    networks:
+      - backend-xpay
+
+  grafana:
+    image: grafana/grafana:12.2.0-17660687647
+    container_name: grafana-xpay
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - backend-xpay
+    depends_on:
+      - prometheus
+
 volumes:
   postgres_wallet_xpay:
   postgres_auth_xpay:
   mongo_users_xpay:
   kafka_data_xpay:
   postgres_transactions_xpay:
+  grafana-storage:
+  prometheus-storage:
 
 networks:
   backend-xpay:

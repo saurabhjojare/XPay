@@ -17,8 +17,9 @@ import java.util.UUID;
 @Builder
 public class Wallet {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(name = "user_id", nullable = false, unique = true)
     private UUID userId;  // UUID from user-service

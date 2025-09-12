@@ -1,7 +1,6 @@
 package com.xpay.wallet.service.impl;
 
 import com.xpay.wallet.constants.Status;
-import com.xpay.wallet.dto.DepositRequestDTO;
 import com.xpay.wallet.model.Wallet;
 import com.xpay.wallet.repository.WalletRepository;
 import com.xpay.wallet.service.WalletService;
@@ -19,6 +18,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class WalletServiceImpl implements WalletService {
     private final WalletRepository walletRepository;
+
+    private final TransactionProducer transactionProducer;
 
     public BigDecimal getBalance(UUID userId) {
 
@@ -93,6 +94,8 @@ public class WalletServiceImpl implements WalletService {
                 wallet.setUpdatedAt(LocalDateTime.now());
 
                 walletRepository.save(wallet);
+                // Publish receiverUserId as string
+                transactionProducer.publishUserId(userId);
                 log.info("Deposited {} into wallet for user: {}", amount, userId);
             } else {
                 throw new RuntimeException("Wallet not found for user " + userId);
@@ -103,4 +106,62 @@ public class WalletServiceImpl implements WalletService {
         }
     }
 
+    @Override
+    public void credit(UUID receiverUserId, BigDecimal amount) {
+        try {
+            Optional<Wallet> optionalWallet = walletRepository.findByUserId(receiverUserId);
+
+            if (optionalWallet.isEmpty()) {
+                throw new RuntimeException("Wallet not found for user " + receiverUserId);
+            }
+
+            Wallet wallet = optionalWallet.get();
+
+            if (wallet.getStatus() != Status.ACTIVE) {
+                throw new RuntimeException("Wallet is not active");
+            }
+
+            wallet.setBalance(wallet.getBalance().add(amount));
+            wallet.setUpdatedAt(LocalDateTime.now());
+
+            walletRepository.save(wallet);
+            log.info("Credited {} into wallet for user: {}", amount, receiverUserId);
+
+        } catch (Exception e) {
+            log.error("Error while crediting wallet: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public void debit(UUID userId, BigDecimal amount) {
+        try {
+            Optional<Wallet> optionalWallet = walletRepository.findByUserId(userId);
+
+            if (optionalWallet.isEmpty()) {
+                throw new RuntimeException("Wallet not found for user " + userId);
+            }
+
+            Wallet wallet = optionalWallet.get();
+
+            if (wallet.getStatus() != Status.ACTIVE) {
+                throw new RuntimeException("Wallet is not active");
+            }
+
+            if (wallet.getBalance().compareTo(amount) < 0) {
+                throw new RuntimeException("Insufficient balance");
+            }
+
+            wallet.setBalance(wallet.getBalance().subtract(amount));
+            wallet.setUpdatedAt(LocalDateTime.now());
+
+            walletRepository.save(wallet);
+
+            log.info("Debited {} from wallet for user: {}", amount, userId);
+
+        } catch (Exception e) {
+            log.error("Error while debiting wallet: {}", e.getMessage());
+            throw e;
+        }
+    }
 }
