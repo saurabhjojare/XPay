@@ -2,6 +2,7 @@ package com.xpay.gateway.filter;
 
 import com.xpay.gateway.exception.GlobalExceptionHandler;
 import com.xpay.gateway.security.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.HttpHeaders;

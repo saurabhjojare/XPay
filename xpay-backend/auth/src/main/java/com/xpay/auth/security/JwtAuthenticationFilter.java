@@ -7,6 +7,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,17 +19,12 @@ import java.io.IOException;
 import java.util.List;
 
 // Filter that checks JWT tokens and authenticates users for each request
+@RequiredArgsConstructor
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtTokenService jwtTokenService;
     private final JwtClaimService jwtClaimService;
-
-    // Constructor for injecting JWT-related services
-    public JwtAuthenticationFilter(JwtTokenService jwtTokenService, JwtClaimService jwtClaimService) {
-        this.jwtTokenService = jwtTokenService;
-        this.jwtClaimService = jwtClaimService;
-    }
 
     // Checks JWT token and sets authentication for each request
     @Override

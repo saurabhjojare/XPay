@@ -10,4 +10,6 @@ public interface WalletService {
     public void createWalletForUser(UUID userId);
     public void deleteWalletByUserId(UUID userId);
     public void deposit(UUID userId, BigDecimal amount, String cardNumber);
+    public void debit(UUID userId, BigDecimal amount);
+    public void credit(UUID receiverUserId, BigDecimal amount);
 }

@@ -33,7 +33,7 @@ public class JwtTokenValidator {
 
             return claims.getExpiration() != null && claims.getExpiration().after(new Date());
         } catch (Exception e) {
-            return false; // invalid token
+            return false;
         }
     }
 }

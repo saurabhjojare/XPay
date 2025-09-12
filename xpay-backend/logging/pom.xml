@@ -10,9 +10,8 @@
 	</parent>
 	<groupId>com.xpay</groupId>
 	<artifactId>logging</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>logging</name>
-	<description>A microservice for collecting, processing, and forwarding application logs.</description>
 	<url/>
 	<licenses>
 		<license/>

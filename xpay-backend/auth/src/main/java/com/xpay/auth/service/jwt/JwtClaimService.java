@@ -3,16 +3,14 @@ package com.xpay.auth.service.jwt;
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
 import io.jsonwebtoken.Claims;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+@RequiredArgsConstructor
 @Service
 public class JwtClaimService {
     private final JwtParserService jwtParserService;
-
-    public JwtClaimService(JwtParserService jwtParserService) {
-        this.jwtParserService = jwtParserService;
-    }
-
+    
     // Extract all claims once
     private Claims getAllClaims(String token) {
         return jwtParserService.extractAllClaims(token);

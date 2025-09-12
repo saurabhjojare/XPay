@@ -1,6 +1,6 @@
 package com.xpay.auth.config;
 
-import com.xpay.auth.constant.Constants;
+import com.xpay.auth.constant.ApiEndpoints;
 import com.xpay.auth.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -34,7 +34,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         // Public endpoints
-                        .requestMatchers(Constants.API + Constants.AUTH + Constants.STAR).permitAll()
+                        .requestMatchers(ApiEndpoints.API + ApiEndpoints.AUTH + ApiEndpoints.STAR).permitAll()
                         // All other endpoints require authentication
                         .anyRequest().authenticated()
                 )

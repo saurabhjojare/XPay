@@ -4,22 +4,20 @@ import com.xpay.auth.config.JwtConfiguration;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.function.Function;
 
+@RequiredArgsConstructor
 @Service
 public class JwtParserService {
     private final JwtConfiguration jwtConfiguration;
 
-    public JwtParserService(JwtConfiguration jwtConfiguration) {
-        this.jwtConfiguration = jwtConfiguration;
-    }
-
     // Helper method to parse the token and retrieve all claims
     public Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
+        return Jwts.parser()
                 .setSigningKey(Keys.hmacShaKeyFor(jwtConfiguration.getJwtSecretKey().getBytes()))
                 .build()
                 .parseClaimsJws(token)
