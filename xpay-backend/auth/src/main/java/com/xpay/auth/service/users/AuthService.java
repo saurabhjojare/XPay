@@ -48,7 +48,7 @@ public class AuthService implements UserDetailsService {
         User user = new User();
         user.setUserId(UUID.randomUUID());
         user.setUsername(registrationRequest.getUsername());
-        user.setPasswordHash(passwordEncoder.encode(registrationRequest.getPlainPassword()));
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPlainPassword()));
         user.setUserRole(userRole != null ? userRole : UserRole.USER);
         user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
 
@@ -72,7 +72,7 @@ public class AuthService implements UserDetailsService {
         CustomUserDetails userDetails = new CustomUserDetails();
         userDetails.setId(user.getUserId().toString());
         userDetails.setUsername(user.getUsername());
-        userDetails.setPassword(user.getPasswordHash());
+        userDetails.setPassword(user.getPassword());
         userDetails.setUserRole(user.getUserRole());
         userDetails.setUserStatus(user.getUserStatus());
 
