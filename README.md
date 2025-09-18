@@ -2,23 +2,23 @@
 
 ## Overview
 
-**XPay** is a scalable, microservices-based digital payment platform built with **Java 21**, **Spring Boot 3.5.3**, and **Maven 3.9.11**, simulating features of real-world systems like Stripe, or Razorpay.
+This is a peer-to-peer short-term lending platform where users can request loans for a few days and offer an extra amount as interest. Lenders can view these requests and fund them, earning the agreed extra amount. The app is designed for quick, flexible, and transparent lending between users.
 
-## 🧱 Architecture Overview
+## Architecture Overview
 
-- **Auth Service** – JWT-based authentication and role management
-- **User Service** – User onboarding and profile management
-- **Wallet Service** – Digital wallet for balance, deposit, withdraw
-- **Transaction Service** – Peer-to-peer and merchant transactions
-- **Notification Service** – Email/SMS alerts on key events
-- **Gateway** – API routing, rate limiting, and auth filtering
-- **Fraud Detection** – Rule-based risk scoring on transactions
-- **Reconciliation** – Verifies wallet vs ledger consistency
-- **Settlement** – T+1 merchant fund settlements
-- **Audit** – Centralized event/audit logging
-- **Admin** – Ops interface for refunds, bans, etc.
+- **Auth Service** – JWT-based authentication, user registration, and role management (borrower/lender)  
+- **User Service** – Onboarding, profile management, loan history, and ratings  
+- **Wallet Service** – Digital wallet for deposits, withdrawals, and loan balances  
+- **Loan Service** – Create, track, and manage short-term loan requests  
+- **Transaction Service** – Handles peer-to-peer loan funding and repayments  
+- **Notification Service** – Email/SMS alerts for loan requests, approvals, and repayments  
+- **Gateway** – API routing, authentication, and rate limiting  
+- **Fraud Detection** – Rule-based checks to prevent default or malicious activity  
+- **Reconciliation** – Ensures wallet balances match loan/transaction records  
+- **Audit** – Centralized logging of all loan requests, funding, and repayments  
+- **Admin Panel** – Interface for monitoring, approving, or flagging loans and users
   
-## 🛠️ Tech Stack
+## Tech Stack
 
 - Java 21, Spring Boot 3.5.3, Apache Maven 3.9.11
 - Docker & Docker Compose
