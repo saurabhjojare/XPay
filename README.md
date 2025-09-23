@@ -20,7 +20,7 @@ This is a peer-to-peer short-term lending platform where users can request loans
   
 ## Tech Stack
 
-- Java 21, Spring Boot 3.5.3, Apache Maven 3.9.11
+- Java, Spring Boot, Maven
 - Docker & Docker Compose
 - REST APIs, JWT, OAuth, Kafka
 - MongoDB, PostgreSQL, Redis
