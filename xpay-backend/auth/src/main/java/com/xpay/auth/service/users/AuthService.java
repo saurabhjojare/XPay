@@ -9,12 +9,14 @@ import com.xpay.auth.mapper.UserMapper;
 import com.xpay.auth.model.User;
 import com.xpay.auth.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -27,11 +29,11 @@ public class AuthService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
-    private final UserProducer eventPublisher;
+    private final RestTemplate restTemplate;
 
-    public AuthService(UserRepository userRepository, UserProducer eventPublisher) {
+    public AuthService(UserRepository userRepository, RestTemplate restTemplate) {
         this.userRepository = userRepository;
-        this.eventPublisher = eventPublisher;
+        this.restTemplate = restTemplate;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -39,26 +41,25 @@ public class AuthService implements UserDetailsService {
         return registerUser(userRegistrationRequest, UserRole.USER, UserStatus.ACTIVE);
     }
 
+    @Transactional
     public Optional<User> registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             log.warn("Username already exists: {}", registrationRequest.getUsername());
             return Optional.empty();
         }
 
-        User user = new User();
-        user.setUserId(UUID.randomUUID());
-        user.setUsername(registrationRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPlainPassword()));
-        user.setUserRole(userRole != null ? userRole : UserRole.USER);
-        user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
+        User authUser = new User();
+        authUser.setUserId(UUID.randomUUID());
+        authUser.setUsername(registrationRequest.getUsername());
+        authUser.setPassword(passwordEncoder.encode(registrationRequest.getPlainPassword()));
+        authUser.setUserRole(userRole != null ? userRole : UserRole.USER);
+        authUser.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
 
-        userRepository.save(user);
-
-        UserCreatedEventDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
-        eventPublisher.sendUserCreatedEvent(event);
-
+        userRepository.save(authUser);
         log.info("Registered new user: {}", registrationRequest.getUsername());
-        return Optional.of(user);
+        //TODO call UserService API here
+
+        return Optional.of(authUser);
     }
 
     @Override
@@ -90,7 +91,8 @@ public class AuthService implements UserDetailsService {
         }
 
         userRepository.deleteByUserId(userId);
-        eventPublisher.sendUserDeletedEvent(userId);
+
+        // TODO call UserService delete API here
         log.info("Deleted user with id: {}", userId);
         return true;
     }

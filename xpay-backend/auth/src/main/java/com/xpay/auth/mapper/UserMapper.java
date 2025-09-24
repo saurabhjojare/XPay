@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 
 public class UserMapper {
     // Static factory method to create UserCreatedDTO
-    public static UserCreatedEventDTO toUserCreatedDTO(User user, UserRequestDTO request,
-                                                       LocalDateTime localDateTime) {
+    public static UserCreatedEventDTO toUserCreatedDTO(
+            User user, UserRequestDTO request, LocalDateTime localDateTime) {
         return new UserCreatedEventDTO(
                 user.getUserId(),
                 request.getFirstName(),

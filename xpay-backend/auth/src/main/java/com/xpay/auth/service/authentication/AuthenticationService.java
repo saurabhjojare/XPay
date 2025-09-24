@@ -22,7 +22,8 @@ public class AuthenticationService {
     public AuthResponseDTO authenticate(AuthRequestDTO authRequest) throws AuthenticationException {
         // Perform authentication using username and password
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
+                new UsernamePasswordAuthenticationToken
+                        (authRequest.getUsername(), authRequest.getPassword())
         );
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
