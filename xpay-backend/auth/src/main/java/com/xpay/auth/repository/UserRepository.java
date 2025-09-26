@@ -3,7 +3,6 @@ package com.xpay.auth.repository;
 
 import com.xpay.auth.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,7 +15,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
     // Retrieves a user by their username
     Optional<User> findByUsername(String username);
 
+    // Deletes a user from the database using their UUID
     void deleteByUserId(UUID userId);
 
+    // Checks if a user with the given UUID exists in the database
     boolean existsByUserId(UUID userId);
 }

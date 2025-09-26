@@ -27,7 +27,7 @@ public class AuthenticationService {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         // Generate JWT token for authenticated user
-        String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername(),
+        String token = jwtTokenService.generateToken(userDetails.getUserId(), userDetails.getUsername(),
                 userDetails.getUserRole(), userDetails.getUserStatus());
         return new AuthResponseDTO(token); // Return token in response DTO
     }

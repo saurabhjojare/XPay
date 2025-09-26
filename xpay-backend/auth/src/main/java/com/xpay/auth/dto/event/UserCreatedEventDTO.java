@@ -1,23 +1,30 @@
 package com.xpay.auth.dto.event;
 
+import com.xpay.auth.enums.UserRole;
+import com.xpay.auth.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Getter
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 public class UserCreatedEventDTO {
-    private final UUID userId;
-    private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String countryCode;
-    private final String phoneNumber;
-    private final LocalDate dateOfBirth;
-    private final LocalDateTime createdAt;
-    private final LocalDateTime updatedAt;
+    private UUID userId;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String countryCode;
+    private String phoneNumber;
+    private LocalDate dateOfBirth;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
+    private UserRole userRole;
+    private UserStatus userStatus;
 }
 

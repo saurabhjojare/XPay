@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mongodb.DuplicateKeyException;
 import com.xpay.userservice.dto.UserRequestDTO;
+import com.xpay.userservice.dto.event.UserCreatedEventDTO;
 import com.xpay.userservice.mapper.UserMapper;
 import com.xpay.userservice.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,20 +20,16 @@ import java.util.UUID;
 public class UserConsumer {
     private final UserService userService;
     private final UserMapper userMapper;
-    private final ObjectMapper objectMapper;
 
     @KafkaListener(topics = "user-created", groupId = "users-service-group")
-    public void listenUserCreated(String message) {
+    public void listenUserCreated(UserCreatedEventDTO event) {
         try {
-            UserRequestDTO userRequestDTO = objectMapper.readValue(message, UserRequestDTO.class);
-            log.info("Created user for request: {}", userRequestDTO);
+            log.info("Received user-created event: {}", event);
+            UserRequestDTO userRequestDTO = userMapper.userRequestMapperFromEvent(event);
             userService.createUser(userRequestDTO);
-        } catch (DuplicateKeyException e) {
-            log.warn("User already exists (duplicate key) for message: {}", message);
-        } catch (JsonProcessingException e) {
-            log.error("Malformed JSON in user-created message: {} - skipping record", message, e);
+            log.info("Created user for request: {}", event);
         } catch (Exception e) {
-            log.error("Failed to process user-created message: {}", message, e);
+            log.error("Failed to process user-created event: {}", event, e);
         }
     }
 

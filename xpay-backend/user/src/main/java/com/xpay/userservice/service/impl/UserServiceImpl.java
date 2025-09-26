@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.xpay.userservice.utility.PaginationUtil.PaginatedResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,18 +36,17 @@ public class UserServiceImpl implements UserService {
             Pageable pageable = PageRequest.of(page, size);
             Page<User> userPage = userRepository.findAll(pageable);
 
-            List<UserResponseDTO> userDTOs = userPage.getContent()
-                    .stream()
-                    .map(userMapper::userResponseMapper)
-                    .toList();
+            List<UserResponseDTO> userDTOs = new ArrayList<>();
+            for (User user : userPage.getContent()) {
+                UserResponseDTO dto = userMapper.userResponseMapper(user);
+                userDTOs.add(dto);
+            }
 
-            return new PaginationUtil.PaginatedResponse<>(userDTOs,
-                    (int) userPage.getTotalElements(),
-                    userPage.getTotalPages(),
-                    page,
-                    size,
-                    sortBy,
-                    sortDir);
+            // Use PaginationUtil to handle pagination and sorting
+            PaginationUtil.PaginatedResponse<UserResponseDTO> paginatedResponse =
+                    PaginationUtil.paginate(userDTOs, page, size, sortBy, sortDir);
+
+            return paginatedResponse;
         } catch (Exception e) {
             log.error("Error fetching users", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching users", e);
@@ -81,25 +81,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             log.error("Error fetching user with ID: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
-        }
-    }
-
-    @Override
-    public Boolean updateUserById(String id, UserRequestDTO userRequestDTO) {
-        try {
-            Optional<User> user = userRepository.findById(id);
-            if (user.isEmpty()) {
-                log.warn("User not found with ID: {}", id);
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-            }
-
-            User existingUser = user.get();
-            userMapper.updateUserFromDto(userRequestDTO, existingUser);
-            userRepository.save(existingUser);
-            return true;
-        } catch (Exception e) {
-            log.error("Error updating user with ID: {}", id, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
         }
     }
 

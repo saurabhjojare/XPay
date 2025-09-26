@@ -1,7 +1,7 @@
 package com.xpay.userservice.constant;
 
-public class ApiEndpoints {
-    private ApiEndpoints() {}
+public class Routes {
+    private Routes() {}
 
     public static final String BASE_API = "/api";
 

@@ -2,6 +2,7 @@ package com.xpay.userservice.mapper;
 
 import com.xpay.userservice.dto.UserRequestDTO;
 import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.dto.event.UserCreatedEventDTO;
 import com.xpay.userservice.model.User;
 import org.springframework.stereotype.Component;
 
@@ -64,4 +65,19 @@ public class UserMapper {
 
         user.setUpdatedAt(LocalDateTime.now());
     }
+
+    public UserRequestDTO userRequestMapperFromEvent(UserCreatedEventDTO event) {
+        return UserRequestDTO.builder()
+                .userId(event.getUserId())
+                .firstName(event.getFirstName())
+                .lastName(event.getLastName())
+                .email(event.getEmail())
+                .countryCode(event.getCountryCode())
+                .phoneNumber(event.getPhoneNumber())
+                .dateOfBirth(event.getDateOfBirth())
+                .createdAt(event.getCreatedAt())
+                .updatedAt(event.getUpdatedAt())
+                .build();
+    }
+
 }

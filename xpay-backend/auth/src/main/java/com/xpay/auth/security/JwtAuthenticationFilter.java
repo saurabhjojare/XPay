@@ -10,13 +10,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-
 import java.io.IOException;
-import java.util.List;
 
 // Filter that checks JWT tokens and authenticates users for each request
 @RequiredArgsConstructor
@@ -28,9 +25,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     // Checks JWT token and sets authentication for each request
     @Override
-    protected void doFilterInternal(HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain) throws ServletException, IOException {
+    protected void doFilterInternal
+    (HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
+            throws ServletException, IOException {
 
         String authorizationHeader = httpServletRequest.getHeader("Authorization");
 
@@ -60,7 +57,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String username = jwtClaimService.extractUsername(token);
         String userId = jwtClaimService.extractUserId(token);
         CustomUserDetails userDetails = new CustomUserDetails();
-        userDetails.setId(userId);
+        userDetails.setUserId(userId);
         userDetails.setUsername(username);
         userDetails.setPassword("");
 
