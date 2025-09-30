@@ -1,7 +1,7 @@
 package com.xpay.auth.service.authentication;
 
-import com.xpay.auth.dto.AuthRequestDTO;
-import com.xpay.auth.dto.AuthResponseDTO;
+import com.xpay.auth.dto.request.AuthRequestDTO;
+import com.xpay.auth.dto.response.AuthResponseDTO;
 import com.xpay.auth.service.jwt.JwtTokenService;
 import com.xpay.auth.service.users.CustomUserDetails;
 import lombok.RequiredArgsConstructor;

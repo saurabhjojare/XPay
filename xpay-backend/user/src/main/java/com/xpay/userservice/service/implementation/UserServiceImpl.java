@@ -1,12 +1,12 @@
-package com.xpay.userservice.service.impl;
+package com.xpay.userservice.service.implementation;
 
 import com.mongodb.DuplicateKeyException;
-import com.xpay.userservice.dto.UserRequestDTO;
-import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.dto.request.UserRequestDTO;
+import com.xpay.userservice.dto.response.UserResponseDTO;
 import com.xpay.userservice.mapper.UserMapper;
 import com.xpay.userservice.model.User;
 import com.xpay.userservice.repository.UserRepository;
-import com.xpay.userservice.service.UserService;
+import com.xpay.userservice.service.interfaces.UserService;
 import com.xpay.userservice.utility.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -85,7 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUserByUserId(UUID userId) {
+    public boolean deleteUserByUserId(UUID userId) {
         try {
             if (!userRepository.existsByUserId(userId)) {
                 log.warn("User not found with userId: {}", userId);
@@ -93,6 +93,7 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.deleteByUserId(userId);
             log.info("Deleted user with userId: {}", userId);
+            return true;
         } catch (Exception e) {
             log.error("Error deleting user with userId: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);

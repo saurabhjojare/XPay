@@ -1,12 +1,10 @@
 package com.xpay.auth.service.users;
 
-import com.xpay.auth.dto.UserRequestDTO;
+import com.xpay.auth.dto.request.UserRequestDTO;
 import com.xpay.auth.dto.event.UserCreatedEventDTO;
-import com.xpay.auth.enums.UserRole;
-import com.xpay.auth.enums.UserStatus;
 import com.xpay.auth.event.UserProducer;
 import com.xpay.auth.mapper.UserMapper;
-import com.xpay.auth.model.User;
+import com.xpay.auth.model.Users;
 import com.xpay.auth.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,14 +24,13 @@ import java.util.UUID;
 @Slf4j
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class AuthService implements UserDetailsService {
 
     private UserRepository userRepository;
-    private BCryptPasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
     private UserProducer eventPublisher;
 
-    public Optional<User> registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
+    public Optional<Users> registerUser(UserRequestDTO registrationRequest) {
         // Check if username already exists
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             log.warn("Username already exists: {}", registrationRequest.getUsername());
@@ -41,7 +38,7 @@ public class AuthService implements UserDetailsService {
         }
 
         // Create new user
-        User user = new User();
+        Users user = new Users();
         user.setUsername(registrationRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registrationRequest.getPlainPassword()));
 
@@ -63,18 +60,18 @@ public class AuthService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<Users> optionalUser = userRepository.findByUsername(username);
         if (!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("User not found with username " + username);
         }
 
-        User user = optionalUser.get();
+        Users users = optionalUser.get();
         CustomUserDetails userDetails = new CustomUserDetails();
-        userDetails.setUserId(user.getUserId().toString());
-        userDetails.setUsername(user.getUsername());
-        userDetails.setPassword(user.getPassword());
-        userDetails.setUserRole(user.getUserRole());
-        userDetails.setUserStatus(user.getUserStatus());
+        userDetails.setUserId(users.getUserId().toString());
+        userDetails.setUsername(users.getUsername());
+        userDetails.setPassword(users.getPassword());
+        userDetails.setUserRole(users.getUserRole());
+        userDetails.setUserStatus(users.getUserStatus());
 
         log.info("User logged in: {}", username);
 

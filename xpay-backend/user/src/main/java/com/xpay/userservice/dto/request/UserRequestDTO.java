@@ -1,4 +1,4 @@
-package com.xpay.userservice.dto;
+package com.xpay.userservice.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,14 +13,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserResponseDTO {
-    private String id;
+public class UserRequestDTO {
     private UUID userId;
     private String firstName;
     private String lastName;
     private String email;
-    private String phoneNumber;
-    private LocalDate dateOfBirth; // Format: yyyy-MM-dd
     private String countryCode;
+    private String phoneNumber;
+    private LocalDate dateOfBirth;
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }

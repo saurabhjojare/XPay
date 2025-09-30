@@ -1,7 +1,7 @@
 package com.xpay.userservice.controller;
 
-import com.xpay.userservice.dto.UserResponseDTO;
-import com.xpay.userservice.service.UserService;
+import com.xpay.userservice.dto.response.UserResponseDTO;
+import com.xpay.userservice.service.interfaces.UserService;
 import com.xpay.userservice.constant.Routes;
 import com.xpay.userservice.utility.PaginationUtil;
 import org.springframework.http.HttpStatus;

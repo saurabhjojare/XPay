@@ -1,7 +1,7 @@
 package com.xpay.userservice.mapper;
 
-import com.xpay.userservice.dto.UserRequestDTO;
-import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.dto.request.UserRequestDTO;
+import com.xpay.userservice.dto.response.UserResponseDTO;
 import com.xpay.userservice.dto.event.UserCreatedEventDTO;
 import com.xpay.userservice.model.User;
 import org.springframework.stereotype.Component;
@@ -10,49 +10,50 @@ import java.time.LocalDateTime;
 
 @Component
 public class UserMapper {
+
     public User toUserMapper(UserRequestDTO userRequestDTO) {
         if (userRequestDTO == null) return null;
-
-        return User.builder()
-                .userId(userRequestDTO.getUserId())
-                .firstName(userRequestDTO.getFirstName())
-                .lastName(userRequestDTO.getLastName())
-                .email(userRequestDTO.getEmail())
-                .phoneNumber(userRequestDTO.getPhoneNumber())
-                .dateOfBirth(userRequestDTO.getDateOfBirth())
-                .countryCode(userRequestDTO.getCountryCode())
-                .createdAt(LocalDateTime.now())
-                .updatedAt(LocalDateTime.now())
-                .build();
+        User user = new User();
+        user.setUserId(userRequestDTO.getUserId());
+        user.setFirstName(userRequestDTO.getFirstName());
+        user.setLastName(userRequestDTO.getLastName());
+        user.setEmail(userRequestDTO.getEmail());
+        user.setPhoneNumber(userRequestDTO.getPhoneNumber());
+        user.setDateOfBirth(userRequestDTO.getDateOfBirth());
+        user.setCountryCode(userRequestDTO.getCountryCode());
+        user.setCreatedAt(LocalDateTime.now());
+        user.setUpdatedAt(LocalDateTime.now());
+        return user;
     }
 
     public UserResponseDTO userResponseMapper(User user) {
         if (user == null) return null;
-        return UserResponseDTO.builder()
-                .id(user.getId())
-                .userId(user.getUserId())
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .dateOfBirth(user.getDateOfBirth())
-                .countryCode(user.getCountryCode())
-                .createdAt(user.getCreatedAt())
-                .build();
+        UserResponseDTO response = new UserResponseDTO();
+        response.setId(user.getId());
+        response.setUserId(user.getUserId());
+        response.setFirstName(user.getFirstName());
+        response.setLastName(user.getLastName());
+        response.setEmail(user.getEmail());
+        response.setPhoneNumber(user.getPhoneNumber());
+        response.setDateOfBirth(user.getDateOfBirth());
+        response.setCountryCode(user.getCountryCode());
+        response.setCreatedAt(user.getCreatedAt());
+        return response;
     }
 
     public UserRequestDTO userRequestMapper(UserRequestDTO userRequestDTO) {
-        return UserRequestDTO.builder()
-                .userId(userRequestDTO.getUserId())
-                .firstName(userRequestDTO.getFirstName())
-                .lastName(userRequestDTO.getLastName())
-                .email(userRequestDTO.getEmail())
-                .countryCode(userRequestDTO.getCountryCode())
-                .phoneNumber(userRequestDTO.getPhoneNumber())
-                .dateOfBirth(userRequestDTO.getDateOfBirth())
-                .createdAt(userRequestDTO.getCreatedAt())
-                .updatedAt(userRequestDTO.getUpdatedAt())
-                .build();
+        if (userRequestDTO == null) return null;
+        UserRequestDTO dto = new UserRequestDTO();
+        dto.setUserId(userRequestDTO.getUserId());
+        dto.setFirstName(userRequestDTO.getFirstName());
+        dto.setLastName(userRequestDTO.getLastName());
+        dto.setEmail(userRequestDTO.getEmail());
+        dto.setCountryCode(userRequestDTO.getCountryCode());
+        dto.setPhoneNumber(userRequestDTO.getPhoneNumber());
+        dto.setDateOfBirth(userRequestDTO.getDateOfBirth());
+        dto.setCreatedAt(userRequestDTO.getCreatedAt());
+        dto.setUpdatedAt(userRequestDTO.getUpdatedAt());
+        return dto;
     }
 
     public void updateUserFromDto(UserRequestDTO dto, User user) {
@@ -62,22 +63,22 @@ public class UserMapper {
         if (dto.getPhoneNumber() != null) user.setPhoneNumber(dto.getPhoneNumber());
         if (dto.getDateOfBirth() != null) user.setDateOfBirth(dto.getDateOfBirth());
         if (dto.getCountryCode() != null) user.setCountryCode(dto.getCountryCode());
-
         user.setUpdatedAt(LocalDateTime.now());
     }
 
     public UserRequestDTO userRequestMapperFromEvent(UserCreatedEventDTO event) {
-        return UserRequestDTO.builder()
-                .userId(event.getUserId())
-                .firstName(event.getFirstName())
-                .lastName(event.getLastName())
-                .email(event.getEmail())
-                .countryCode(event.getCountryCode())
-                .phoneNumber(event.getPhoneNumber())
-                .dateOfBirth(event.getDateOfBirth())
-                .createdAt(event.getCreatedAt())
-                .updatedAt(event.getUpdatedAt())
-                .build();
+        if (event == null) return null;
+        UserRequestDTO dto = new UserRequestDTO();
+        dto.setUserId(event.getUserId());
+        dto.setFirstName(event.getFirstName());
+        dto.setLastName(event.getLastName());
+        dto.setEmail(event.getEmail());
+        dto.setCountryCode(event.getCountryCode());
+        dto.setPhoneNumber(event.getPhoneNumber());
+        dto.setDateOfBirth(event.getDateOfBirth());
+        dto.setCreatedAt(event.getCreatedAt());
+        dto.setUpdatedAt(event.getUpdatedAt());
+        return dto;
     }
 
 }

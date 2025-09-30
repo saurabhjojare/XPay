@@ -1,14 +1,14 @@
 package com.xpay.auth.mapper;
 
-import com.xpay.auth.dto.UserRequestDTO;
+import com.xpay.auth.dto.request.UserRequestDTO;
 import com.xpay.auth.dto.event.UserCreatedEventDTO;
-import com.xpay.auth.model.User;
+import com.xpay.auth.model.Users;
 
 import java.time.LocalDateTime;
 
 public class UserMapper {
     public static UserCreatedEventDTO toUserCreatedDTO
-            (User user, UserRequestDTO request, LocalDateTime localDateTime) {
+            (Users user, UserRequestDTO request, LocalDateTime localDateTime) {
         // Create an empty object
         UserCreatedEventDTO dto = new UserCreatedEventDTO();
 

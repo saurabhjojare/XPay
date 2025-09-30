@@ -1,19 +1,18 @@
 package com.xpay.auth.repository;
 
-
-import com.xpay.auth.model.User;
+import com.xpay.auth.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 import java.util.UUID;
 
 // Repository interface for accessing User data from the database
-public interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<Users, Long> {
 
     // Checks if a user with the given username already exists
     boolean existsByUsername(String username);
 
     // Retrieves a user by their username
-    Optional<User> findByUsername(String username);
+    Optional<Users> findByUsername(String username);
 
     // Deletes a user from the database using their UUID
     void deleteByUserId(UUID userId);

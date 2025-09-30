@@ -1,13 +1,12 @@
 package com.xpay.auth.controller;
 
 import com.xpay.auth.constant.Routes;
-import com.xpay.auth.dto.AuthRequestDTO;
-import com.xpay.auth.dto.AuthResponseDTO;
-import com.xpay.auth.dto.UserRequestDTO;
+import com.xpay.auth.dto.request.AuthRequestDTO;
+import com.xpay.auth.dto.response.AuthResponseDTO;
+import com.xpay.auth.dto.request.UserRequestDTO;
 import com.xpay.auth.service.authentication.AuthenticationService;
 import com.xpay.auth.service.users.AuthService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import java.util.UUID;

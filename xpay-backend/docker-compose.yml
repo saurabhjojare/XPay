@@ -1,6 +1,6 @@
 services:
   postgres-wallet:
-    image: postgres:16.9-bookworm
+    image: postgres:18.0-bookworm
     container_name: postgres-xpay-wallet
     environment:
       POSTGRES_USER: saurabhjojare
@@ -14,7 +14,7 @@ services:
       - backend-xpay
 
   postgres-auth:
-    image: postgres:16.9-bookworm
+    image: postgres:18.0-bookworm
     container_name: postgres-xpay-auth
     environment:
       POSTGRES_USER: saurabhjojare
@@ -28,7 +28,7 @@ services:
       - backend-xpay
 
   postgres-transactions:
-    image: postgres:16.9-bookworm
+    image: postgres:18.0-bookworm
     container_name: postgres-xpay-transactions
     environment:
       POSTGRES_USER: saurabhjojare
@@ -45,23 +45,29 @@ services:
       - postgres-auth
 
   kafka:
-    image: bitnami/kafka:4.0.0-debian-12-r8
+    image: confluentinc/cp-kafka:8.0.1
     container_name: kafka-kraft-xpay
+    hostname: kafka
     ports:
       - "9092:9092"
     environment:
-      - KAFKA_KRAFT_MODE=true
-      - KAFKA_ENABLE_KRAFT=yes
-      - KAFKA_CFG_PROCESS_ROLES=broker,controller
-      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
-      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
-      - KAFKA_CFG_NODE_ID=1
-      - KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
-      - ALLOW_PLAINTEXT_LISTENER=yes
+      # KRaft mode (no Zookeeper)
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_LOG_DIRS: /var/lib/kafka/data
+      CLUSTER_ID: 123e4567-e89b-12d3-a456-426614174000
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
     volumes:
-      - kafka_data_xpay:/bitnami/kafka/data
+      - kafka_data_xpay:/var/lib/kafka/data
     networks:
       - backend-xpay
     depends_on:
@@ -83,7 +89,7 @@ services:
       - backend-xpay
 
   prometheus:
-    image: prom/prometheus:v3.5.0
+    image: prom/prometheus:v3.6.0
     container_name: prometheus-xpay
     ports:
       - "9090:9090"
@@ -94,7 +100,7 @@ services:
       - backend-xpay
 
   grafana:
-    image: grafana/grafana:12.2.0-17660687647
+    image: grafana/grafana:12.2.0
     container_name: grafana-xpay
     ports:
       - "3000:3000"

@@ -1,9 +1,11 @@
-package com.xpay.auth.dto;
+package com.xpay.auth.dto.request;
 
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
 import java.time.LocalDate;
 
 @Getter

@@ -1,17 +1,13 @@
 package com.xpay.userservice.event;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.DuplicateKeyException;
-import com.xpay.userservice.dto.UserRequestDTO;
+import com.xpay.userservice.dto.request.UserRequestDTO;
 import com.xpay.userservice.dto.event.UserCreatedEventDTO;
 import com.xpay.userservice.mapper.UserMapper;
-import com.xpay.userservice.service.UserService;
+import com.xpay.userservice.service.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
-
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -22,7 +18,7 @@ public class UserConsumer {
     private final UserMapper userMapper;
 
     @KafkaListener(topics = "user-created", groupId = "users-service-group")
-    public void listenUserCreated(UserCreatedEventDTO event) {
+    public void consumeUserCreated(UserCreatedEventDTO event) {
         try {
             log.info("Received user-created event: {}", event);
             UserRequestDTO userRequestDTO = userMapper.userRequestMapperFromEvent(event);
@@ -34,7 +30,7 @@ public class UserConsumer {
     }
 
     @KafkaListener(topics = "user-deleted", groupId = "users-service-group")
-    public void listenUserDeleted(UUID userId) {
+    public void consumeUserDeleted(UUID userId) {
         try {
             log.info("Users Service received user-deleted event: {}", userId);
             userService.deleteUserByUserId(userId);

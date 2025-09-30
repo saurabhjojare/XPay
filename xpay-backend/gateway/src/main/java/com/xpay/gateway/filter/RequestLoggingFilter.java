@@ -34,8 +34,7 @@ public class RequestLoggingFilter extends AbstractGatewayFilterFactory<RequestLo
                             "Request-ID: {}, Status: {}",
                     method, path, userId, username, role, requestId, userStatus);
 
-            return chain.filter(exchange)
-                    .doFinally(signalType ->
+            return chain.filter(exchange).doFinally(signalType ->
                             logger.info("Request completed: [{} {}], User-ID: {}, Username: {}, " +
                                             "Role: {}, Request-ID: {}, Status: {}",
                                     method, path, userId, username, role, requestId, userStatus));

@@ -11,7 +11,4 @@ public interface UserRepository extends MongoRepository<User, String> {
     void deleteByUserId(UUID userId);
     boolean existsByUserId(UUID userId);
     Optional<User> findByUserId(UUID userId);
-
-    @Query(value = "{ 'phoneNumber' : ?0 }", fields = "{ 'userId' : 1 }")
-    Optional<User> findUserIdByPhoneNumber(String phoneNumber);
 }
