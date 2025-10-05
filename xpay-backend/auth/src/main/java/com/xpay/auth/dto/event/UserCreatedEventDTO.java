@@ -1,7 +1,5 @@
 package com.xpay.auth.dto.event;
 
-import com.xpay.auth.enums.UserRole;
-import com.xpay.auth.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +22,5 @@ public class UserCreatedEventDTO {
     private LocalDate dateOfBirth;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private UserRole userRole;
-    private UserStatus userStatus;
 }
 

@@ -11,12 +11,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class UserProducer {
-    private final KafkaTemplate<String, UserCreatedEventDTO> createdTemplate;
+    private final KafkaTemplate<String, Object> createdTemplate;
     private final KafkaTemplate<String, UUID> deletedTemplate;
 
-    public void publishUserCreatedEvent(UserCreatedEventDTO event) {
-        createdTemplate.send("user-created", event);
-        log.info("Sent UserCreatedEvent for user: {}", event);
+    public void publishUserCreatedEvent(UserCreatedEventDTO userCreatedEventDTO) {
+        createdTemplate.send("user-created", userCreatedEventDTO);
+        log.info("Sent UserCreatedEvent for user: {}", userCreatedEventDTO);
     }
 
     public void publishUserDeletedEvent(UUID userId) {

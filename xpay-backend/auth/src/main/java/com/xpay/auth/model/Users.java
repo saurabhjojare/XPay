@@ -1,6 +1,5 @@
 package com.xpay.auth.model;
 
-
 import com.xpay.auth.enums.UserRole;
 import com.xpay.auth.enums.UserStatus;
 import jakarta.persistence.*;

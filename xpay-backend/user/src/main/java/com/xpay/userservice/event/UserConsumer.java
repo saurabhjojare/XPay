@@ -18,14 +18,18 @@ public class UserConsumer {
     private final UserMapper userMapper;
 
     @KafkaListener(topics = "user-created", groupId = "users-service-group")
-    public void consumeUserCreated(UserCreatedEventDTO event) {
+    public void consumeUserCreated(UserCreatedEventDTO userCreatedEventDTO) {
+        if (userCreatedEventDTO == null) {
+            log.warn("Received null UserCreatedEventDTO");
+            return;
+        }
         try {
-            log.info("Received user-created event: {}", event);
-            UserRequestDTO userRequestDTO = userMapper.userRequestMapperFromEvent(event);
+            log.info("Received user-created event: {}", userCreatedEventDTO);
+            UserRequestDTO userRequestDTO = userMapper.userRequestMapperFromEvent(userCreatedEventDTO);
             userService.createUser(userRequestDTO);
-            log.info("Created user for request: {}", event);
+            log.info("Created user for request: {}", userCreatedEventDTO);
         } catch (Exception e) {
-            log.error("Failed to process user-created event: {}", event, e);
+            log.error("Failed to process user-created event: {}", userCreatedEventDTO, e);
         }
     }
 
