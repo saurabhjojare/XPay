@@ -54,7 +54,7 @@ public class AuthService implements UserDetailsService {
         UserCreatedEventDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
         eventPublisher.publishUserCreatedEvent(event);
 
-        log.info("Registered new user: {}", registrationRequest.getUsername());
+        log.info("Registered new user: username={}, email={}, phoneNumber={}", registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPhoneNumber());
         return Optional.of(user);
     }
 

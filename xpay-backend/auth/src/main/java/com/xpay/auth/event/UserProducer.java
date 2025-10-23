@@ -16,7 +16,11 @@ public class UserProducer {
 
     public void publishUserCreatedEvent(UserCreatedEventDTO userCreatedEventDTO) {
         createdTemplate.send("user-created", userCreatedEventDTO);
-        log.info("Sent UserCreatedEvent for user: {}", userCreatedEventDTO);
+        log.info("Sent UserCreatedEvent for user: id={}, email={}, firstName={}, lastName={}",
+                userCreatedEventDTO.getUserId(),
+                userCreatedEventDTO.getEmail(),
+                userCreatedEventDTO.getFirstName(),
+                userCreatedEventDTO.getLastName());
     }
 
     public void publishUserDeletedEvent(UUID userId) {

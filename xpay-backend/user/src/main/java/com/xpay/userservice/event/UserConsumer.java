@@ -17,17 +17,17 @@ public class UserConsumer {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @KafkaListener(topics = "user-created", groupId = "users-service-group")
+    @KafkaListener(topics = "user-created", groupId = "users-service-group", containerFactory = "userCreatedKafkaListenerContainerFactory")
     public void consumeUserCreated(UserCreatedEventDTO userCreatedEventDTO) {
         if (userCreatedEventDTO == null) {
             log.warn("Received null UserCreatedEventDTO");
             return;
         }
         try {
-            log.info("Received user-created event: {}", userCreatedEventDTO);
+            log.info("Received user-created event: userId={}, email={}, countryCode={}", userCreatedEventDTO.getUserId(), userCreatedEventDTO.getEmail(), userCreatedEventDTO.getCountryCode());
             UserRequestDTO userRequestDTO = userMapper.userRequestMapperFromEvent(userCreatedEventDTO);
             userService.createUser(userRequestDTO);
-            log.info("Created user for request: {}", userCreatedEventDTO);
+            log.info("Created user for request: userId={}, email={}, firstName={}, lastName={}", userCreatedEventDTO.getUserId(), userRequestDTO.getEmail(), userRequestDTO.getFirstName(), userRequestDTO.getLastName());
         } catch (Exception e) {
             log.error("Failed to process user-created event: {}", userCreatedEventDTO, e);
         }
