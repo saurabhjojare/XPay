@@ -1,18 +1,18 @@
 package com.xpay.auth.service.users;
 
-import com.xpay.auth.dto.UserRequestDTO;
+import com.xpay.auth.dto.request.UserRequestDTO;
 import com.xpay.auth.dto.event.UserCreatedEventDTO;
-import com.xpay.auth.enums.UserRole;
-import com.xpay.auth.enums.UserStatus;
 import com.xpay.auth.event.UserProducer;
 import com.xpay.auth.mapper.UserMapper;
-import com.xpay.auth.model.User;
+import com.xpay.auth.model.Users;
 import com.xpay.auth.repository.UserRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,58 +23,55 @@ import java.util.UUID;
 // Service to load user details from database for Spring Security
 @Slf4j
 @Service
+@AllArgsConstructor
 public class AuthService implements UserDetailsService {
 
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
-    private final UserProducer eventPublisher;
+    private UserRepository userRepository;
+    private PasswordEncoder passwordEncoder;
+    private UserProducer eventPublisher;
 
-    public AuthService(UserRepository userRepository, UserProducer eventPublisher) {
-        this.userRepository = userRepository;
-        this.eventPublisher = eventPublisher;
-        this.passwordEncoder = new BCryptPasswordEncoder();
-    }
-
-    public Optional<User> registerUser(UserRequestDTO userRegistrationRequest) {
-        return registerUser(userRegistrationRequest, UserRole.USER, UserStatus.ACTIVE);
-    }
-
-    public Optional<User> registerUser(UserRequestDTO registrationRequest, UserRole userRole, UserStatus userStatus) {
+    public Optional<Users> registerUser(UserRequestDTO registrationRequest) {
+        // Check if username already exists
         if (userRepository.existsByUsername(registrationRequest.getUsername())) {
             log.warn("Username already exists: {}", registrationRequest.getUsername());
             return Optional.empty();
         }
 
-        User user = new User();
-        user.setUserId(UUID.randomUUID());
+        // Create new user
+        Users user = new Users();
         user.setUsername(registrationRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registrationRequest.getPlainPassword()));
-        user.setUserRole(userRole != null ? userRole : UserRole.USER);
-        user.setUserStatus(userStatus != null ? userStatus : UserStatus.ACTIVE);
+
+        if (registrationRequest.getUserRole() != null) {
+            user.setUserRole(registrationRequest.getUserRole());
+        }
+        if (registrationRequest.getUserStatus() != null) {
+            user.setUserStatus(registrationRequest.getUserStatus());
+        }
 
         userRepository.save(user);
 
         UserCreatedEventDTO event = UserMapper.toUserCreatedDTO(user, registrationRequest, LocalDateTime.now());
-        eventPublisher.sendUserCreatedEvent(event);
+        eventPublisher.publishUserCreatedEvent(event);
 
-        log.info("Registered new user: {}", registrationRequest.getUsername());
+        log.info("Registered new user: username={}, email={}, phoneNumber={}", registrationRequest.getUsername(), registrationRequest.getEmail(), registrationRequest.getPhoneNumber());
         return Optional.of(user);
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> optionalUser = userRepository.findByUsername(username);
+        Optional<Users> optionalUser = userRepository.findByUsername(username);
         if (!optionalUser.isPresent()) {
             throw new UsernameNotFoundException("User not found with username " + username);
         }
 
-        User user = optionalUser.get();
+        Users users = optionalUser.get();
         CustomUserDetails userDetails = new CustomUserDetails();
-        userDetails.setId(user.getUserId().toString());
-        userDetails.setUsername(user.getUsername());
-        userDetails.setPassword(user.getPassword());
-        userDetails.setUserRole(user.getUserRole());
-        userDetails.setUserStatus(user.getUserStatus());
+        userDetails.setUserId(users.getUserId().toString());
+        userDetails.setUsername(users.getUsername());
+        userDetails.setPassword(users.getPassword());
+        userDetails.setUserRole(users.getUserRole());
+        userDetails.setUserStatus(users.getUserStatus());
 
         log.info("User logged in: {}", username);
 
@@ -85,13 +82,13 @@ public class AuthService implements UserDetailsService {
     public boolean deleteUserById(UUID userId) {
         boolean exists = userRepository.existsByUserId(userId);
         if (!exists) {
-            log.warn("User not found with id: {}", userId);
+            log.warn("User not found with userId: {}", userId);
             return false;
         }
 
         userRepository.deleteByUserId(userId);
-        eventPublisher.sendUserDeletedEvent(userId);
-        log.info("Deleted user with id: {}", userId);
+        eventPublisher.publishUserDeletedEvent(userId);
+        log.info("Deleted user with userId: {}", userId);
         return true;
     }
 }

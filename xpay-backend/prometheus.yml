@@ -1,8 +1,8 @@
 global:
-  scrape_interval: 5s  # Prometheus will scrape metrics every 5 seconds
+  scrape_interval: 120s  # Prometheus will scrape metrics every 120 seconds
 
 scrape_configs:
   - job_name: 'gateway'
     static_configs:
-      - targets: ['host.docker.internal:8080']  # Local service name of your gateway and port
-#     - targets: ['gateway:8080']  # Docker service name of your gateway and port
+      - targets: ['host.docker.internal:8080']  # Local service name of gateway and port
+#     - targets: ['gateway:8080']  # Docker service name of gateway and port

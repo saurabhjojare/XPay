@@ -1,21 +1,18 @@
-package com.xpay.userservice.dto;
+package com.xpay.userservice.dto.event;
 
-import com.xpay.userservice.enums.UserStatus;
-import com.xpay.userservice.enums.UserType;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-
+import lombok.Setter;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class UserRequestDTO {
+public class UserCreatedEventDTO {
     private UUID userId;
     private String firstName;
     private String lastName;
@@ -26,3 +23,4 @@ public class UserRequestDTO {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }
+

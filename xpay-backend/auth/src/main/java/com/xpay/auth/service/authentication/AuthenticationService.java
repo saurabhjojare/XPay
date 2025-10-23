@@ -1,7 +1,7 @@
 package com.xpay.auth.service.authentication;
 
-import com.xpay.auth.dto.AuthRequestDTO;
-import com.xpay.auth.dto.AuthResponseDTO;
+import com.xpay.auth.dto.request.AuthRequestDTO;
+import com.xpay.auth.dto.response.AuthResponseDTO;
 import com.xpay.auth.service.jwt.JwtTokenService;
 import com.xpay.auth.service.users.CustomUserDetails;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ public class AuthenticationService {
 
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         // Generate JWT token for authenticated user
-        String token = jwtTokenService.generateToken(userDetails.getId(), userDetails.getUsername(),
+        String token = jwtTokenService.generateToken(userDetails.getUserId(), userDetails.getUsername(),
                 userDetails.getUserRole(), userDetails.getUserStatus());
         return new AuthResponseDTO(token); // Return token in response DTO
     }

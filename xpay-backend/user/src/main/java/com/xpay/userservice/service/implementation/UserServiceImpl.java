@@ -1,12 +1,12 @@
-package com.xpay.userservice.service.impl;
+package com.xpay.userservice.service.implementation;
 
 import com.mongodb.DuplicateKeyException;
-import com.xpay.userservice.dto.UserRequestDTO;
-import com.xpay.userservice.dto.UserResponseDTO;
+import com.xpay.userservice.dto.request.UserRequestDTO;
+import com.xpay.userservice.dto.response.UserResponseDTO;
 import com.xpay.userservice.mapper.UserMapper;
 import com.xpay.userservice.model.User;
 import com.xpay.userservice.repository.UserRepository;
-import com.xpay.userservice.service.UserService;
+import com.xpay.userservice.service.interfaces.UserService;
 import com.xpay.userservice.utility.PaginationUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import com.xpay.userservice.utility.PaginationUtil.PaginatedResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,18 +36,17 @@ public class UserServiceImpl implements UserService {
             Pageable pageable = PageRequest.of(page, size);
             Page<User> userPage = userRepository.findAll(pageable);
 
-            List<UserResponseDTO> userDTOs = userPage.getContent()
-                    .stream()
-                    .map(userMapper::userResponseMapper)
-                    .toList();
+            List<UserResponseDTO> userDTOs = new ArrayList<>();
+            for (User user : userPage.getContent()) {
+                UserResponseDTO dto = userMapper.userResponseMapper(user);
+                userDTOs.add(dto);
+            }
 
-            return new PaginationUtil.PaginatedResponse<>(userDTOs,
-                    (int) userPage.getTotalElements(),
-                    userPage.getTotalPages(),
-                    page,
-                    size,
-                    sortBy,
-                    sortDir);
+            // Use PaginationUtil to handle pagination and sorting
+            PaginationUtil.PaginatedResponse<UserResponseDTO> paginatedResponse =
+                    PaginationUtil.paginate(userDTOs, page, size, sortBy, sortDir);
+
+            return paginatedResponse;
         } catch (Exception e) {
             log.error("Error fetching users", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching users", e);
@@ -85,26 +85,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean updateUserById(String id, UserRequestDTO userRequestDTO) {
-        try {
-            Optional<User> user = userRepository.findById(id);
-            if (user.isEmpty()) {
-                log.warn("User not found with ID: {}", id);
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
-            }
-
-            User existingUser = user.get();
-            userMapper.updateUserFromDto(userRequestDTO, existingUser);
-            userRepository.save(existingUser);
-            return true;
-        } catch (Exception e) {
-            log.error("Error updating user with ID: {}", id, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
-        }
-    }
-
-    @Override
-    public void deleteUserByUserId(UUID userId) {
+    public boolean deleteUserByUserId(UUID userId) {
         try {
             if (!userRepository.existsByUserId(userId)) {
                 log.warn("User not found with userId: {}", userId);
@@ -112,6 +93,7 @@ public class UserServiceImpl implements UserService {
             }
             userRepository.deleteByUserId(userId);
             log.info("Deleted user with userId: {}", userId);
+            return true;
         } catch (Exception e) {
             log.error("Error deleting user with userId: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error deleting user", e);

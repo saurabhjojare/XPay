@@ -10,7 +10,6 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.kafka.core.DefaultKafkaProducerFactory;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -20,17 +19,18 @@ public class KafkaConfig {
 
     // Producer for UserCreatedEventDTO
     @Bean
-    public ProducerFactory<String, UserCreatedEventDTO> jsonProducerFactory() {
+    public ProducerFactory<String, Object> objectProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        configProps.put(JsonSerializer.ADD_TYPE_INFO_HEADERS, false);
         return new DefaultKafkaProducerFactory<>(configProps);
     }
 
     @Bean
-    public KafkaTemplate<String, UserCreatedEventDTO> jsonKafkaTemplate() {
-        return new KafkaTemplate<>(jsonProducerFactory());
+    public KafkaTemplate<String, Object> jsonKafkaTemplate() {
+        return new KafkaTemplate<>(objectProducerFactory());
     }
 
     // Producer for UUID
@@ -44,7 +44,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, UUID> uuiddKafkaTemplate() {
+    public KafkaTemplate<String, UUID> uuidKafkaTemplate() {
         return new KafkaTemplate<>(uuidProducerFactory());
     }
 }

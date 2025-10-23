@@ -59,15 +59,13 @@ public class JwtAuthenticationFilter extends AbstractGatewayFilterFactory<JwtAut
             }
 
             // Step 5: Enrich request with headers
-            exchange = exchange.mutate()
-                    .request(builder -> builder
+            exchange = exchange.mutate().request(builder -> builder
                             .header("X-User-Name", userName)
                             .header("X-User-Role", userRole)
                             .header("X-User-ID", userId)
                             .header("X-User-Status", userStatus)
                             .header("X-Request-ID", UUID.randomUUID().toString())
-                    )
-                    .build();
+                    ).build();
 
             return chain.filter(exchange);
         };

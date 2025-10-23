@@ -1,5 +1,5 @@
 package com.xpay.userservice.enums;
 
-public enum UserType {
+public enum UserRole {
     USER
 }

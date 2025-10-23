@@ -1,24 +1,19 @@
 package com.xpay.userservice.controller;
 
-import com.xpay.userservice.dto.UserRequestDTO;
-import com.xpay.userservice.dto.UserResponseDTO;
-import com.xpay.userservice.service.UserService;
-import com.xpay.userservice.constant.ApiEndpoints;
-
+import com.xpay.userservice.dto.response.UserResponseDTO;
+import com.xpay.userservice.service.interfaces.UserService;
+import com.xpay.userservice.constant.Routes;
 import com.xpay.userservice.utility.PaginationUtil;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.UUID;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(ApiEndpoints.BASE_API + ApiEndpoints.User.BASE_USERS)
+@RequestMapping(Routes.BASE_API + Routes.User.BASE_USERS)
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
@@ -38,34 +33,13 @@ public class UserController {
         }
     }
 
-    @GetMapping(ApiEndpoints.User.GET_BY_ID)
+    @GetMapping(Routes.User.GET_BY_ID)
     public UserResponseDTO getUserById(@PathVariable("userId") UUID userId) {
         try {
             return userService.getUserById(userId);
         } catch (Exception e) {
             log.error("Error fetching user with ID: {}", userId, e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error fetching user", e);
-        }
-    }
-
-    @PostMapping()
-    public Boolean createUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-        try {
-            return userService.createUser(userRequestDTO);
-        } catch (Exception e) {
-            log.error("Error creating user with data: {}", userRequestDTO, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating user", e);
-        }
-    }
-
-    @PatchMapping(ApiEndpoints.User.GET_BY_ID)
-    public Boolean updateUserById(@PathVariable("id") String id, @RequestBody UserRequestDTO userRequestDTO) {
-        try {
-            userService.updateUserById(id, userRequestDTO);
-            return true;
-        } catch (Exception e) {
-            log.error("Error partially updating user with ID: {}", id, e);
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error updating user", e);
         }
     }
 }

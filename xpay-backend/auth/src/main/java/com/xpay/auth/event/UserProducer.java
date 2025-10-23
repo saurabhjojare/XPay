@@ -5,23 +5,26 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-
 import java.util.UUID;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class UserProducer {
-    private final KafkaTemplate<String, UserCreatedEventDTO> createdTemplate;
+    private final KafkaTemplate<String, Object> createdTemplate;
     private final KafkaTemplate<String, UUID> deletedTemplate;
 
-    public void sendUserCreatedEvent(UserCreatedEventDTO event) {
-        createdTemplate.send("user-created", event);
-        log.info("Sent UserCreatedEvent for user: {}", event);
+    public void publishUserCreatedEvent(UserCreatedEventDTO userCreatedEventDTO) {
+        createdTemplate.send("user-created", userCreatedEventDTO);
+        log.info("Sent UserCreatedEvent for user: id={}, email={}, firstName={}, lastName={}",
+                userCreatedEventDTO.getUserId(),
+                userCreatedEventDTO.getEmail(),
+                userCreatedEventDTO.getFirstName(),
+                userCreatedEventDTO.getLastName());
     }
 
-    public void sendUserDeletedEvent(UUID userId) {
+    public void publishUserDeletedEvent(UUID userId) {
         deletedTemplate.send("user-deleted", userId);
-        log.info("Sent UserDeletedEvent for userId: {}", userId);
+        log.info("Published UserDeletedEvent for userId: {}", userId);
     }
 }

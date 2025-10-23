@@ -1,7 +1,5 @@
-package com.xpay.userservice.dto;
+package com.xpay.userservice.dto.response;
 
-import com.xpay.userservice.enums.UserStatus;
-import com.xpay.userservice.enums.UserType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

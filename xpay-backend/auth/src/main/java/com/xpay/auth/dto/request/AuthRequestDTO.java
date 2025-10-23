@@ -1,4 +1,4 @@
-package com.xpay.auth.dto;
+package com.xpay.auth.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

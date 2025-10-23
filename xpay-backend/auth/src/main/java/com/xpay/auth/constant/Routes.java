@@ -1,6 +1,6 @@
 package com.xpay.auth.constant;
 
-public class ApiEndpoints {
+public class Routes {
     public static final String API = "/api";
     public static final String AUTH = "/auth";
     public static final String STAR = "/**";

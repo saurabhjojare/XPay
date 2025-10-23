@@ -7,7 +7,6 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.Collection;
 import java.util.Collections;
 
@@ -15,7 +14,7 @@ import java.util.Collections;
 @Setter
 public class CustomUserDetails implements UserDetails {
 
-    private String id;
+    private String userId;
     private String username;
     private String password;
     private UserRole userRole;
@@ -24,8 +23,9 @@ public class CustomUserDetails implements UserDetails {
     public CustomUserDetails() {
     }
 
-    public CustomUserDetails(String id, String username, String password, UserRole userRole, UserStatus userStatus) {
-        this.id = id;
+    public CustomUserDetails(String userId, String username, String password,
+                             UserRole userRole, UserStatus userStatus) {
+        this.userId = userId;
         this.username = username;
         this.password = password;
         this.userRole = userRole;
