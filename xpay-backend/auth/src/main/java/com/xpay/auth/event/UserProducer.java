@@ -15,16 +15,14 @@ public class UserProducer {
     private final KafkaTemplate<String, UUID> deletedTemplate;
 
     public void publishUserCreatedEvent(UserCreatedEventDTO userCreatedEventDTO) {
-        createdTemplate.send("user-created", userCreatedEventDTO);
+        createdTemplate.send("user-created", userCreatedEventDTO.getUserId().toString(), userCreatedEventDTO);
         log.info("Sent UserCreatedEvent for user: id={}, email={}, firstName={}, lastName={}",
-                userCreatedEventDTO.getUserId(),
-                userCreatedEventDTO.getEmail(),
-                userCreatedEventDTO.getFirstName(),
-                userCreatedEventDTO.getLastName());
+                userCreatedEventDTO.getUserId(), userCreatedEventDTO.getEmail(),
+                userCreatedEventDTO.getFirstName(), userCreatedEventDTO.getLastName());
     }
 
     public void publishUserDeletedEvent(UUID userId) {
-        deletedTemplate.send("user-deleted", userId);
+        deletedTemplate.send("user-deleted", userId.toString(), userId);
         log.info("Published UserDeletedEvent for userId: {}", userId);
     }
 }

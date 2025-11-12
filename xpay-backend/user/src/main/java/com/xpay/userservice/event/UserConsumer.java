@@ -33,7 +33,7 @@ public class UserConsumer {
         }
     }
 
-    @KafkaListener(topics = "user-deleted", groupId = "users-service-group")
+    @KafkaListener(topics = "user-deleted", groupId = "users-service-group", containerFactory = "uuidKafkaListenerContainerFactory")
     public void consumeUserDeleted(UUID userId) {
         try {
             log.info("Users Service received user-deleted event: {}", userId);
