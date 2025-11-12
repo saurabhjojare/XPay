@@ -7,7 +7,6 @@ import com.xpay.auth.mapper.UserMapper;
 import com.xpay.auth.model.Users;
 import com.xpay.auth.repository.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
