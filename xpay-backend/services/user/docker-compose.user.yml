@@ -1,0 +1,21 @@
+services:
+  mongo-user:
+    image: mongo:8.0.10
+    container_name: mongo-xpay-user
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: saurabhjojare
+      MONGO_INITDB_ROOT_PASSWORD: Saurabh@123
+      MONGO_INITDB_DATABASE: xpay-db-user
+    volumes:
+      - mongo_user_data:/data/db
+    networks:
+      - xpay-user-net
+
+volumes:
+  mongo_user_data:
+
+networks:
+  xpay-user-net:
+    driver: bridge
