@@ -1,4 +1,4 @@
-package com.xpay.notifications.dto.event;
+package com.xpay.notification.dto.event;
 
 
 import lombok.AllArgsConstructor;

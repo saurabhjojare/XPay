@@ -1,4 +1,4 @@
-package com.xpay.notifications;
+package com.xpay.notification;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

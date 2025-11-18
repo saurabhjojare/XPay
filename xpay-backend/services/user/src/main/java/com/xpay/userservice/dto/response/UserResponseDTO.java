@@ -22,5 +22,6 @@ public class UserResponseDTO {
     private String phoneNumber;
     private LocalDate dateOfBirth; // Format: yyyy-MM-dd
     private String countryCode;
+    private boolean isVerified;
     private LocalDateTime createdAt;
 }

@@ -46,6 +46,10 @@ public class User {
     private String phoneNumber;
 
     private LocalDate dateOfBirth; // "yyyy-MM-dd"
+
+    private boolean isVerified;
+
+    private LocalDateTime verifiedAt;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

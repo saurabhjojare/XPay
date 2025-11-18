@@ -1,7 +1,7 @@
-package com.xpay.notifications.event;
+package com.xpay.notification.event;
 
-import com.xpay.notifications.dto.event.UserCreatedEventDTO;
-import com.xpay.notifications.service.UserEmailService;
+import com.xpay.notification.dto.event.UserCreatedEventDTO;
+import com.xpay.notification.service.UserEmailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -22,7 +22,7 @@ public class UserNotificationConsumer {
 
         try {
             log.info("Received user-created event in Notification: {}", userCreatedEventDTO.getEmail());
-            userEmailService.sendWelcomeEmail(userCreatedEventDTO);
+//            userEmailService.sendWelcomeEmail(userCreatedEventDTO);
             log.info("Welcome email successfully sent to {}", userCreatedEventDTO.getEmail());
         } catch (Exception e) {
             log.error("Failed to process user-created event for email={}", userCreatedEventDTO.getEmail(), e);
