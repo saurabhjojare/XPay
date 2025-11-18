@@ -1,6 +1,6 @@
-package com.xpay.notifications.service;
+package com.xpay.notification.service;
 
-import com.xpay.notifications.dto.event.UserCreatedEventDTO;
+import com.xpay.notification.dto.event.UserCreatedEventDTO;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +37,26 @@ public class UserEmailService {
             log.info("Welcome email sent to {}", userCreatedEventDTO.getEmail());
         } catch (Exception e) {
             log.error("Failed to send welcome email to {}", userCreatedEventDTO.getEmail(), e);
+        }
+    }
+
+    public void sendOTPEmail(String email, String otp) {
+        Context context = new Context();
+        context.setVariable("otp", otp);
+        String htmlContent = templateEngine.process("otp-email-template", context);
+
+        try {
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, "UTF-8");
+
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setSubject("Your XPay OTP Code");
+            mimeMessageHelper.setText(htmlContent, true);
+
+            javaMailSender.send(mimeMessage);
+            log.info("OTP email sent to {}", email);
+        } catch (Exception e) {
+            log.error("Failed to send OTP email to {}", email, e);
         }
     }
 }

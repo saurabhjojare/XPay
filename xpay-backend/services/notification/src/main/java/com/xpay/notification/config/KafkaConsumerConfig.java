@@ -1,6 +1,6 @@
-package com.xpay.notifications.config;
+package com.xpay.notification.config;
 
-import com.xpay.notifications.dto.event.UserCreatedEventDTO;
+import com.xpay.notification.dto.event.UserCreatedEventDTO;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;

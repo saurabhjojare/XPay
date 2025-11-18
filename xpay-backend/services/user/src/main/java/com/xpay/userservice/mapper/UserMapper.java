@@ -38,6 +38,7 @@ public class UserMapper {
         response.setDateOfBirth(user.getDateOfBirth());
         response.setCountryCode(user.getCountryCode());
         response.setCreatedAt(user.getCreatedAt());
+        response.setVerified(user.isVerified());
         return response;
     }
 

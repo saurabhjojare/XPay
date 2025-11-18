@@ -1,4 +1,4 @@
-package com.xpay.notifications;
+package com.xpay.notification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
