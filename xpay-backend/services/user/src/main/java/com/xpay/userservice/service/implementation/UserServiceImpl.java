@@ -1,6 +1,5 @@
 package com.xpay.userservice.service.implementation;
 
-import com.mongodb.DuplicateKeyException;
 import com.xpay.userservice.dto.request.UserRequestDTO;
 import com.xpay.userservice.dto.response.UserResponseDTO;
 import com.xpay.userservice.mapper.UserMapper;
@@ -59,8 +58,6 @@ public class UserServiceImpl implements UserService {
             User user = userMapper.toUserMapper(userRequestDTO);
             userRepository.save(user);
             return true;
-        } catch (DuplicateKeyException e) {
-            throw new RuntimeException("Email or phone number already exists");
         } catch (Exception e) {
             log.error("Error creating user", e);
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error creating user", e);
