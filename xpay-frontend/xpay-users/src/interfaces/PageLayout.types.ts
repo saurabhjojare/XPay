@@ -1,5 +1,5 @@
 export interface PageLayoutProps {
-    children: React.ReactNode;
     header?: React.ReactNode;
+    children: React.ReactNode;
     footer?: React.ReactNode;
 }

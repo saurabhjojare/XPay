@@ -1,30 +1,26 @@
 import { useState } from "react";
 import { loginUser } from "../../services/user.service";
-import { LoginProps as LoginPayLoad } from "../../interfaces/login.props";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../constants/global.consts";
+import { LoginProps } from "./LoginPage.types";
 
 const useLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const submitLogin = async (): Promise<boolean> => {
 
-    const payload: LoginPayLoad = { email, password };
+    const payload: LoginProps = { email, password };
 
     try {
       const response = await loginUser(payload);
       if (response === true) {
-        navigate(ROUTES.HOME);
-      } else {
-        setErrorMessage("Login failed");
+        return true;
       }
+      setErrorMessage("Invalid email or password");
+      return false;
     } catch (error: any) {
-      console.error("Login error:", error);
       setErrorMessage(error.message || "Login error");
+      return false;
     }
   };
 
@@ -33,7 +29,7 @@ const useLogin = () => {
     password,
     setEmail,
     setPassword,
-    handleSubmit,
+    submitLogin,
     errorMessage,
     setErrorMessage,
   };
