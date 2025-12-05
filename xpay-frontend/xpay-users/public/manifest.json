@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "XPay",
+  "name": "A peer-to-peer app for quick, short-term loans",
   "icons": [
     {
       "src": "favicon.ico",

@@ -1,5 +1,5 @@
 import React from "react";
-import PageLayout from "../common/page.layout";
+import PageLayout from "../common/PageLayout";
 import { Box } from "@mui/material";
 
 const HomePage: React.FC = () => {

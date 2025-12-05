@@ -1,7 +1,6 @@
 import React from "react";
-import { Snackbar, Alert, AlertColor } from "@mui/material";
-import { SnackBarProps } from "../../interfaces/snackbar.props";
-
+import { Snackbar, Alert } from "@mui/material";
+import { SnackBarProps } from "../../interfaces/Snackbar.types";
 
 const SnackbarAlert: React.FC<SnackBarProps> = ({
     open,
