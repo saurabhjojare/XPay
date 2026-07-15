@@ -1,5 +1,5 @@
 global:
-  scrape_interval: 120s  # Prometheus will scrape metrics every 120 seconds
+  scrape_interval: 600s  # Prometheus will scrape metrics every 120 seconds
 
 scrape_configs:
   - job_name: 'gateway'
