@@ -1,31 +1,29 @@
 # XPay
 
-## Overview
+This repository contains the frontend and backend implementations of the project, maintained in separate branches.
 
-This is a peer-to-peer short-term lending platform where users can request loans for a few days and offer an extra amount as interest. Lenders can view these requests and fund them, earning the agreed extra amount. The app is designed for quick, flexible, and transparent lending between users.
+## Repository Structure
 
-## Architecture Overview
+The `main` branch is intentionally empty and serves as the default repository branch.
 
-- **Auth Service** – JWT-based authentication, user registration, and role management (borrower/lender)  
-- **User Service** – Onboarding, profile management, loan history, and ratings  
-- **Wallet Service** – Digital wallet for deposits, withdrawals, and loan balances  
-- **Loan Service** – Create, track, and manage short-term loan requests  
-- **Transaction Service** – Handles peer-to-peer loan funding and repayments  
-- **Notification Service** – Email/SMS alerts for loan requests, approvals, and repayments  
-- **Gateway** – API routing, authentication, and rate limiting  
-- **Fraud Detection** – Rule-based checks to prevent default or malicious activity  
-- **Reconciliation** – Ensures wallet balances match loan/transaction records  
-- **Audit** – Centralized logging of all loan requests, funding, and repayments  
-- **Admin Panel** – Interface for monitoring, approving, or flagging loans and users
-  
-## Tech Stack
+The project is divided into two branches:
 
-- Java, Spring Boot, Maven
-- Docker & Docker Compose
-- REST APIs, JWT, OAuth, Kafka
-- MongoDB, PostgreSQL, Redis
+### Backend
 
-## License
-This project is licensed under the [MIT License](LICENSE).
-  
-For any issues or feedback, please contact saurabh.jojare@gmail.com.
+The backend contains the server side implementation, APIs, business logic, database integration, authentication, and related services.
+
+[View Backend Branch](https://github.com/saurabhjojare/XPay/tree/backend)
+
+### Frontend
+
+The frontend contains the user interface and client side implementation.
+
+[View Frontend Branch](https://github.com/saurabhjojare/XPay/tree/frontend)
+
+## Branches
+
+| Branch | Description |
+|--------|-------------|
+| `main` | Default branch |
+| `backend` | Backend implementation |
+| `frontend` | Frontend implementation |
