@@ -1,6 +1,6 @@
 # XPay
 
-This repository contains the frontend and backend implementations of the project, maintained in separate branches.
+The project’s frontend and backend are maintained in separate branches.
 
 ## Repository Structure
 
@@ -10,7 +10,7 @@ The project is divided into two branches:
 
 ### Backend
 
-The backend contains the server side implementation, APIs, business logic, database integration, authentication, and related services.
+The backend handles APIs, business logic, database integration, authentication, and server-side services.
 
 [View Backend Branch](https://github.com/saurabhjojare/XPay/tree/backend)
 
