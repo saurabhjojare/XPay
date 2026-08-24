@@ -1,0 +1,17 @@
+services:
+  redis-xpay-notification-db:
+    image: redis:8.0.5
+    container_name: redis-xpay-notification-db
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_notification_data:/data
+    networks:
+      - xpay-notification-net
+
+volumes:
+  redis_notification_data:
+
+networks:
+  xpay-notification-net:
+    driver: bridge
